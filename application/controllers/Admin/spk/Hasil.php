@@ -205,14 +205,18 @@ class Hasil extends CI_Controller
 
         // get nama kolom tabel penduduk
         $column = array();
+        $column2 = array();
         $nm_column = $this->model_penduduk->get_column_name()->result_array();
         for ($i = 4; $i < count($nm_column); $i++) {
             if ($i != 7 && $i != 11) {
                 array_push($column, $nm_column[$i]['Field']);
+                array_push($column2, $nm_column[$i]['Field']);
             }
         }
+        $column2[5] = "status_penduduk";
+
         // End get nama kolom
-        print_r($column);
+        print_r($column2);
 
         // echo is_numeric($subkr_bobot[5]['nama_subkriteria']);
         $pieces = explode(" ", $subkr_bobot[2]['nama_subkriteria']);
@@ -226,14 +230,16 @@ class Hasil extends CI_Controller
         //     echo "Bukan";
         // }
 
+
         // Proses subtitusi 
+
         $no_p = 0;
         $score = array();
         foreach ($data_penduduk->result_array() as $dp) {
             for ($i = 0; $i < count($column); $i++) {
 
                 foreach ($kr_bobot as $kr) {
-                    if ($column[$i] == $kr['nama_kriteria']) {
+                    if ($column2[$i] == $kr['nama_kriteria']) {
                         // input tiap kolom array
                         $score[$no_p]['id_penduduk'] = $dp['id_penduduk'];
                         // $score[$no_p][$column[$i]] = $kr['bobot'];
@@ -248,9 +254,16 @@ class Hasil extends CI_Controller
 
                             if (count($pieces) > 2) {
                                 if ($pieces[1] == "-") {
-                                    $operator = $pieces[0] . " <= " . $dp[$column[$i]] . " && " . $dp[$column[$i]] . " <= " . $pieces[2];
+                                    // $operator = $pieces[0] . " <= " . $dp[$column[$i]] . " && " . $dp[$column[$i]] . " <= " . $pieces[2];
+
+                                    if ($pieces[0] <= $dp[$column[$i]] && $dp[$column[$i]] <= $pieces[2]) {
+                                        $score[$no_p][$column[$i]] = $kr['bobot'] * $sbb['bobot'];
+                                    }
                                 } else {
-                                    $operator = $pieces[2] . " <= " . $dp[$column[$i]];
+                                    // $operator = $pieces[2] . " <= " . $dp[$column[$i]];
+                                    if ($pieces[2] <= $dp[$column[$i]]) {
+                                        $score[$no_p][$column[$i]] = $kr['bobot'] * $sbb['bobot'];
+                                    }
                                 }
 
                                 if ($operator) {
