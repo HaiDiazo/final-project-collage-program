@@ -192,8 +192,17 @@ class Hasil extends CI_Controller
         $this->load->view("admin/layout_admin/layout_footer");
     }
 
-    public function implementWBobot($id_periode)
+    public function implementWBobot($id_periode, $accept = null)
     {
+        $nama_user = $this->session->userdata('nama');
+        $title = 'Proses Subtitusi Bobot AHP';
+        $data = [
+            'spk' => 'hasil',
+            'title' => $title,
+            'nama_user' => $nama_user,
+            'navigasi' => $this->navigasi(' <a href="' . base_url('admin/spk/hasil') . '">Implementasi AHP</a> / ' . $title),
+        ];
+
         // get data penduduk berdasarkan periode
         $data_penduduk = $this->model_penduduk->penduduk_periode($id_periode);
 
@@ -216,7 +225,7 @@ class Hasil extends CI_Controller
         $column2[5] = "status_penduduk";
 
         // End get nama kolom
-        print_r($column2);
+        // print_r($column2);
 
         // echo is_numeric($subkr_bobot[5]['nama_subkriteria']);
         $pieces = explode(" ", $subkr_bobot[2]['nama_subkriteria']);
@@ -257,21 +266,21 @@ class Hasil extends CI_Controller
                                     // $operator = $pieces[0] . " <= " . $dp[$column[$i]] . " && " . $dp[$column[$i]] . " <= " . $pieces[2];
 
                                     if ($pieces[0] <= $dp[$column[$i]] && $dp[$column[$i]] <= $pieces[2]) {
-                                        $score[$no_p][$column[$i]] = $kr['bobot'] * $sbb['bobot'];
+                                        $score[$no_p][$i] = $kr['bobot'] * $sbb['bobot'];
                                     }
                                 } else {
                                     // $operator = $pieces[2] . " <= " . $dp[$column[$i]];
                                     if ($pieces[2] <= $dp[$column[$i]]) {
-                                        $score[$no_p][$column[$i]] = $kr['bobot'] * $sbb['bobot'];
+                                        $score[$no_p][$i] = $kr['bobot'] * $sbb['bobot'];
                                     }
                                 }
 
                                 if ($operator) {
-                                    $score[$no_p][$column[$i]] = $kr['bobot'] * $sbb['bobot'];
+                                    $score[$no_p][$i] = $kr['bobot'] * $sbb['bobot'];
                                 }
                             } else {
                                 if ($dp[$column[$i]] == $sbb['nama_subkriteria']) {
-                                    $score[$no_p][$column[$i]] = $kr['bobot'] * $sbb['bobot'];
+                                    $score[$no_p][$i] = $kr['bobot'] * $sbb['bobot'];
                                 }
                             }
                         }
@@ -280,14 +289,69 @@ class Hasil extends CI_Controller
             }
             $no_p++;
         }
-        echo "<br><br><br>";
-        print_r($score[0]);
-        echo "<br><br><br>";
-        print_r($score[1]);
-        echo "<br><br><br>";
-        print_r($score[2]);
-        echo "<br><br><br>";
-        print_r($score[3]);
-        echo "<br><br><br>";
+
+        // print_r($score);
+        // Total 1 baris untuk mulai diurutkan
+        $i = 0;
+        $total = array();
+        foreach ($score as $sc) {
+
+            $temp = 0;
+            for ($j = 0; $j < count($sc) - 1; $j++) {
+                $total[$i]['id_penduduk'] = $sc['id_penduduk'];
+
+                $temp += $sc[$j];
+            }
+            $total[$i]['total'] = $temp;
+            $i++;
+        }
+        // echo "<br><br><br>";
+        // print_r($total);
+
+        // Insert ke tabel alternatif
+
+
+
+        if ($accept != null && $accept == 1) {
+
+            // Cek apakah sudah ada?
+            $temp = $this->model_alternatif->exist_alternatif_penduduk($id_periode)->result_array();
+
+            if (count($temp) == 0) {
+                foreach ($total as $ahp) {
+                    $data = [
+                        'id_penduduk' => $ahp['id_penduduk'],
+                        'skor' => $ahp['total'],
+                    ];
+                    $this->model_alternatif->insert_alternatif($data);
+                }
+            } else {
+                foreach ($total as $ahp) {
+                    $data = [
+                        'skor' => $ahp['total'],
+                    ];
+                    $this->model_alternatif->update_alternatif($ahp['id_penduduk'], $data);
+                }
+            }
+
+            redirect('admin/spk/hasil/urut/' . $id_periode);
+        }
+
+        $data['id_periode'] = $id_periode;
+        $data['penduduk'] = $data_penduduk->result_array();
+        $data['column'] = $column2;
+        $data['score'] = $score;
+        $data['total'] = $total;
+
+        // print_r($total);
+
+        $this->load->view("admin/layout_admin/layout_header", $data);
+        $this->load->view("admin/spk/hasil/hasil_urut", $data);
+        $this->load->view("admin/layout_admin/layout_footer");
+    }
+
+    public function urut($id_periode)
+    {
+        $id_periode;
     }
 }
