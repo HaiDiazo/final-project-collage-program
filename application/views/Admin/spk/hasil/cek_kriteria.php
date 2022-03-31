@@ -5,7 +5,7 @@
             <div class="d-flex align-items-center">
                 <div class="mr-auto bd-highlight">
                     <?php if (!count($error_data) > 0) { ?>
-                        <a href="<?= base_url('admin/tahunPeriode/tambah_periode'); ?>" class="btn btn-primary"><span style="font-size: 15px;">Lanjut Proses</span> <i class="bi bi-arrow-right"></i></a>
+                        <a href="<?= base_url('admin/spk/hasil/implementWBobot/') . $id_periode; ?>" class="btn btn-primary"><span style="font-size: 15px;">Lanjut Proses</span> <i class="bi bi-arrow-right"></i></a>
                     <?php } else { ?>
                         <a href="#" class="btn btn-primary disabled"><span style="font-size: 15px;">Lanjut Proses</span> <i class="bi bi-arrow-right"></i></a>
                     <?php } ?>

@@ -41,4 +41,9 @@ class model_penduduk extends CI_Model
     {
         $this->db->delete($this->table, $where);
     }
+
+    public function get_column_name()
+    {
+        return $this->db->query("SHOW COLUMNS FROM $this->table");
+    }
 }
