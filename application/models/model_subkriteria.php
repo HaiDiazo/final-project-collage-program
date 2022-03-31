@@ -37,6 +37,13 @@ class model_subkriteria extends CI_Model
         $this->db->insert($this->table1, $data);
     }
 
+    public function update_all_subkrit_null($id_krit)
+    {
+        $data = array('bobot' => null);
+        $this->db->where("id_kriteria =" . $id_krit);
+        $this->db->update($this->table1, $data);
+    }
+
     public function update_subKrit($id, $data)
     {
         $this->db->where("id_subkriteria =" . $id);
@@ -59,6 +66,11 @@ class model_subkriteria extends CI_Model
         $query = $this->db->query("SELECT * FROM perbandingan_subkriteria WHERE id_subkriteria1 IN (SELECT id_subkriteria FROM sub_kriteria WHERE id_kriteria = $id_krit) OR id_subkriteria2 IN (SELECT id_subkriteria FROM sub_kriteria WHERE id_kriteria = $id_krit)")->result_array();
 
         return count($query);
+    }
+
+    public function delete_perbandingan_subkrit($id_krit)
+    {
+        $this->db->query("DELETE FROM perbandingan_subkriteria WHERE id_subkriteria1 IN (SELECT id_subkriteria FROM sub_kriteria WHERE id_kriteria = $id_krit) OR id_subkriteria2 IN (SELECT id_subkriteria FROM sub_kriteria WHERE id_kriteria = $id_krit)");
     }
 
     public function update_bobot_kriteria($where, $data)

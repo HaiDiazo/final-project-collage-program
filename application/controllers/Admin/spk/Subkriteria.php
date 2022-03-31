@@ -175,6 +175,11 @@ class Subkriteria extends CI_Controller
             'nama_subkriteria' => $subkriteria
         );
 
+        // delete bobot
+        $this->model_subkriteria->update_all_subkrit_null($kriteria);
+        // delete perbandingan sebelumnya
+        $this->model_subkriteria->delete_perbandingan_subkrit($kriteria);
+
         $this->model_subkriteria->insert_subKrit($data);
         $insert = $this->db->affected_rows() != 1 ? false : true;
 
@@ -198,6 +203,12 @@ class Subkriteria extends CI_Controller
             'nama_subkriteria' => $string
         );
 
+        // delete bobot
+        $this->model_subkriteria->update_all_subkrit_null($kriteria);
+        // delete perbandingan sebelumnya
+        $this->model_subkriteria->delete_perbandingan_subkrit($kriteria);
+
+        // Insert
         $this->model_subkriteria->insert_subKrit($data);
         $insert = $this->db->affected_rows() != 1 ? false : true;
 

@@ -102,7 +102,7 @@ class Hasil extends CI_Controller
             'spk' => 'hasil',
             'title' => $title,
             'nama_user' => $nama_user,
-            'navigasi' => $this->navigasi(' <a href="' . base_url('admin/spk/hasil') . '">Hasil AHP</a> / ' . $title),
+            'navigasi' => $this->navigasi(' <a href="' . base_url('admin/spk/hasil') . '">Implementasi AHP</a> / ' . $title),
         ];
 
         $data_penduduk = $this->model_penduduk->penduduk_periode($id_periode);
@@ -115,8 +115,25 @@ class Hasil extends CI_Controller
 
 
         // cek data terlebih dahulu
+        $i = 0;
+        $simpan = array();
         foreach ($data_penduduk->result_array() as $dp) {
 
+            // usia
+            if (!is_numeric($dp['usia'])) {
+                $simpan[$i]['id_penduduk'] = $dp['id_penduduk'];
+                $simpan[$i]['nama'] = $dp['nama'];
+                $simpan[$i]['usia'] = 0;
+            }
+
+            // Tanggungan
+            if (!is_numeric($dp['usia'])) {
+                $simpan[$i]['id_penduduk'] = $dp['id_penduduk'];
+                $simpan[$i]['nama'] = $dp['nama'];
+                $simpan[$i]['usia'] = $dp['id_penduduk'];
+            }
+
+            // pekerjaan
             $temp = 0;
             foreach ($pekerjaan as $p) {
                 if ($dp['pekerjaan'] == $p['nama_subkriteria']) {
@@ -124,13 +141,50 @@ class Hasil extends CI_Controller
                 }
             }
             if ($temp == 0) {
-                echo $dp['pekerjaan'] . " <- Subkriteria tidak ditemukan di sistem";
-            } else {
-                echo $dp['pekerjaan'];
+                $simpan[$i]['id_penduduk'] = $dp['id_penduduk'];
+                $simpan[$i]['nama'] = $dp['nama'];
+                $simpan[$i]['pekerjaan'] = $temp;
             }
-            echo "<br>";
+
+            // Penghasilan
+            if (!is_numeric($dp['penghasilan'])) {
+                $simpan[$i]['id_penduduk'] = $dp['id_penduduk'];
+                $simpan[$i]['nama'] = $dp['nama'];
+                $simpan[$i]['penghasilan'] = 0;
+            }
+
+            // Terdampak
+            $temp = 0;
+            foreach ($terdampak as $p) {
+                if ($dp['terdampak'] == $p['nama_subkriteria']) {
+                    $temp++;
+                }
+            }
+            if ($temp == 0) {
+                $simpan[$i]['id_penduduk'] = $dp['id_penduduk'];
+                $simpan[$i]['nama'] = $dp['nama'];
+                $simpan[$i]['terdampak'] = $temp;
+            }
+
+
+            // Status Penduduk
+            $temp = 0;
+            foreach ($status_penduduk as $p) {
+                if ($dp['status_pddk'] == $p['nama_subkriteria']) {
+                    $temp++;
+                }
+            }
+            if ($temp == 0) {
+                $simpan[$i]['id_penduduk'] = $dp['id_penduduk'];
+                $simpan[$i]['nik'] = $dp['nik'];
+                $simpan[$i]['status_penduduk'] = $temp;
+            }
+
+            $i++;
         }
 
+        // Show error
+        $data['error_data'] = $simpan;
         $data['pekerjaan'] = $pekerjaan;
         $data['terdampak'] = $terdampak;
         $data['status_penduduk'] = $status_penduduk;

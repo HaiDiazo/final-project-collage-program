@@ -4,7 +4,11 @@
         <div class="card-body">
             <div class="d-flex align-items-center">
                 <div class="mr-auto bd-highlight">
-                    <a href="<?= base_url('admin/tahunPeriode/tambah_periode'); ?>" class="btn btn-primary"><span style="font-size: 15px;">Lanjut Proses</span> <i class="bi bi-arrow-right"></i></a>
+                    <?php if (!count($error_data) > 0) { ?>
+                        <a href="<?= base_url('admin/tahunPeriode/tambah_periode'); ?>" class="btn btn-primary"><span style="font-size: 15px;">Lanjut Proses</span> <i class="bi bi-arrow-right"></i></a>
+                    <?php } else { ?>
+                        <a href="#" class="btn btn-primary disabled"><span style="font-size: 15px;">Lanjut Proses</span> <i class="bi bi-arrow-right"></i></a>
+                    <?php } ?>
                 </div>
                 <div class="">
                     <div class="input-icons">
@@ -14,6 +18,21 @@
                 </div>
             </div>
             <hr>
+            <?php if (count($error_data) > 0) { ?>
+                <div>
+                    <h6 class="font-weight-bold text-danger">Data tidak cocok</h6>
+                </div>
+                <div class="rounded bg-light mb-3 p-1" style="height: 50px; overflow-y: scroll;">
+                    <?php
+                    $i = 1;
+                    foreach ($error_data as $ed) {
+                        echo "<span style='font-size: 13px;'>[" . $i++ . "] Error subkriteria pada data dengan NIK : " . $ed['nama'] . "</span>";
+                        echo "<br>";
+                    }
+                    ?>
+                </div>
+            <?php } ?>
+
             <div class="table-responsive">
                 <table id="example" class="table table-bordered text-center">
                     <thead>
