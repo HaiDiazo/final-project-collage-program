@@ -89,11 +89,6 @@ class Hasil extends CI_Controller
         $this->load->view("admin/layout_admin/layout_footer");
     }
 
-    private function test()
-    {
-        return 1;
-    }
-
     public function cek_implementasi($id_periode)
     {
         $nama_user = $this->session->userdata('nama');
