@@ -69,13 +69,13 @@
                             <a href="<?= base_url('admin/spk/kriteria'); ?>" class="<?php if (isset($spk)) if ($spk == 'kriteria') echo 'active'; ?>">Prioritas Elemen Kriteria</a>
                         </li>
                         <li>
-                            <a href="#">Prioritas Elemen SubKriteria</a>
+                            <a href="<?= base_url('admin/spk/subkriteria'); ?>" class="<?php if (isset($spk)) if ($spk == 'subkriteria') echo 'active'; ?>">Prioritas Elemen Subkriteria</a>
                         </li>
                         <li>
                             <a href="<?= base_url('admin/spk/proses'); ?>" class="<?php if (isset($spk)) if ($spk == 'prosesAhp') echo 'active'; ?>">Proses AHP</a>
                         </li>
                         <li>
-                            <a href="#">Hasil AHP</a>
+                            <a href="<?= base_url('admin/spk/hasil'); ?>" class="<?php if (isset($spk)) if ($spk == 'hasil') echo 'active'; ?>">Hasil AHP</a>
                         </li>
                     </ul>
                 </li>

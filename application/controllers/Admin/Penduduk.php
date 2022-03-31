@@ -360,7 +360,7 @@ class Penduduk extends CI_Controller
             'usia' => $usia,
             'tanggungan' => $tanggungan,
             'pekerjaan' => $pekerjaan,
-            'status' => $status,
+            'status_c' => $status,
             'penghasilan' => $penghasilan,
             'terdampak' => $terdampak,
             'status_pddk' => $status_pddk

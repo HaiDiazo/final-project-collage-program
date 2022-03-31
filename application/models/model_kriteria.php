@@ -14,6 +14,12 @@ class model_kriteria extends CI_Model
         return $this->db->get($this->table1);
     }
 
+    public function get_data_kriteria($id)
+    {
+        $this->db->where("id_kriteria = " . $id);
+        return $this->db->get($this->table1);
+    }
+
     public function get_perbandingan_kriteria()
     {
         return $this->db->get($this->table2);

@@ -204,6 +204,15 @@ class Proses extends CI_Controller
             'navigasi' => $this->navigasi($title),
         ];
 
+        $kriteria = $this->model_kriteria->data_kriteria()->result_array();
+        $cek_bobot = array();
+        $i = 0;
+        foreach ($kriteria as $kr) {
+            $cek_bobot[$i++] = $kr['bobot'];
+        }
+        $data['cek'] = $cek_bobot;
+        $data['kriteria'] = $kriteria;
+
         $this->load->view("admin/layout_admin/layout_header", $data);
         $this->load->view("admin/spk/proses/proses_table", $data);
         $this->load->view("admin/layout_admin/layout_footer");
@@ -329,6 +338,141 @@ class Proses extends CI_Controller
 
         $this->load->view("admin/layout_admin/layout_header", $data);
         $this->load->view("admin/spk/proses/proses_kriteria", $data);
+        $this->load->view("admin/layout_admin/layout_footer");
+    }
+
+
+    public function proses_subkriteria($id_krit, $accept = null)
+    {
+        $nama_user = $this->session->userdata('nama');
+        $title = 'Proses AHP - SubKriteria';
+        $data = [
+            'spk' => 'prosesAhp',
+            'title' => $title,
+            'nama_user' => $nama_user,
+            'navigasi' => $this->navigasi(' <a href="' . base_url('admin/spk/proses') . '">Proses AHP</a> / ' . $title),
+        ];
+
+        // Ambil data dari model
+        $sub_kriteria = $this->model_subkriteria->data_subkriteria($id_krit)->result_array();
+        $nilai_perb = $this->model_subkriteria->get_perbandingan_subkrit($id_krit)->result_array();
+        // end
+
+        // Inisialisasi dan push to array kriteria array
+        $subkrit_arr = array();
+        $id_subkrit_arr = array();
+        foreach ($sub_kriteria as $kr) {
+            array_push($id_subkrit_arr, $kr['id_subkriteria']);
+            array_push($subkrit_arr, $kr['nama_subkriteria']);
+        }
+        // end
+
+        // Inisialisasi dan push to array nilai perbandingan array
+        $nilai_perb_arr = array();
+        $set_radio = array();
+        foreach ($nilai_perb as $np) {
+            array_push($nilai_perb_arr, $np['nilai_perband']);
+            array_push($set_radio, $np['set_radio']);
+        }
+        // end
+
+        $n = count($subkrit_arr);
+
+        //** membuat matrik perbandingan
+        $matrik_comp = $this->matrix_comparison($n, $set_radio, $nilai_perb_arr);
+        //** end matrik perbandingan
+
+        // ** matrik normalisasi
+        $matrik_normalisasi = $this->matrik_normalisasi($n, $matrik_comp['matrik'], $matrik_comp['total']);
+        // ** end normalisasi
+
+        // ** Matrix penjumlahan tiap baris
+        $matrik_ptb = $this->matrik_ptb($n, $matrik_comp['matrik'], $matrik_normalisasi['prioritas']);
+        // ** end matrix penjumlahan tiap baris
+
+        // ** Rasio konsistensi 
+        // menghitung rasio
+        $rasio_konsistensi = $this->consistensi_rasio($n, $matrik_ptb['jumlah_tiap_bar'], $matrik_normalisasi['prioritas']);
+        // end menghitung rasio
+
+        // Nilai eigen
+        $eigen = $rasio_konsistensi['jumlah_nilai'] / $n;
+        // end nilai eigen
+
+        // Ambil dari db IR
+        $cons_index = $this->consistensi_index($eigen, $n);
+        $ir = $this->model_ir->get_ir($n)->row_array();
+
+        if ($ir['nilai_ir'] == 0) {
+            $cons_rasio = $cons_index / 10;
+        } else {
+            $cons_rasio = $cons_index / $ir['nilai_ir'];
+        }
+
+
+        // cek CR dibawah 0.1 adalah konsisten
+        if ($cons_rasio < 0.1) {
+            $data['pesan'] = '<div class="alert alert-success alert-dismissible fade show" role="alert"> Rasio Konsistensi dibawah 0.1 <br>Silahkan lanjut ke tahapan selanjutnya. 
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>';
+        } else {
+            $data['pesan'] = '<div class="alert alert-danger alert-dismissible fade show" role="alert"> Rasio Konsistensi <strong>diatas 0.1</strong> ! <br> Silahkan kembali konfigurasi prioritas elemen kriteria.
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>';
+        }
+
+        // ** end Rasio konsistensi
+
+        // Data bobot diinputkan ke tabel kriteria 
+        if ($accept != null && $accept == 1) {
+            for ($i = 0; $i < $n; $i++) {
+                $update = array(
+                    'bobot' => $matrik_normalisasi['prioritas'][$i]
+                );
+
+                $this->model_subkriteria->update_bobot_kriteria($id_subkrit_arr[$i], $update);
+            }
+
+            redirect('admin/spk/subkriteria');
+        }
+        // end tombol
+
+        // Tambahan variable
+        $data['id_krit'] = $id_krit;
+        // End Tambahan
+        // Matrik comparison
+        $data['subkrit_arr'] = $subkrit_arr;
+        $data['matrik'] = $matrik_comp['matrik'];
+        $data['total'] = $matrik_comp['total'];
+        // end matrix comparison
+
+        // Matrik normalisasi
+        $data['normalisasi'] = $matrik_normalisasi['normalisasi'];
+        $data['jumlah_normalisasi'] = $matrik_normalisasi['jumlah'];
+        $data['prioritas'] = $matrik_normalisasi['prioritas'];
+        $data['total_norm'] = $matrik_normalisasi['total_norm'];
+        // End Matrik normalisasi
+
+        // Matrix penjumlahan tiap baris
+        $data['penjumlahan_tiap_baris'] = $matrik_ptb['penjuml_tiap_bar'];
+        $data['jumlah_tiap_baris'] = $matrik_ptb['jumlah_tiap_bar'];
+        // End matrix penjumlahan tiap baris
+
+        // Rasio Konsistensi
+        $data['nilai'] = $rasio_konsistensi['nilai'];
+        $data['jumlah_nilai'] = $rasio_konsistensi['jumlah_nilai'];
+        $data['eigen'] = $eigen;
+        $data['cons_index'] = $cons_index;
+        $data['ir'] = $ir['nilai_ir'];
+        $data['cons_rasio'] = $cons_rasio;
+        // End rasio konsistensi
+
+        $this->load->view("admin/layout_admin/layout_header", $data);
+        $this->load->view("admin/spk/proses/proses_subkriteria", $data);
         $this->load->view("admin/layout_admin/layout_footer");
     }
 }

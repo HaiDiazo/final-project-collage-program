@@ -49,7 +49,6 @@
                             <th scope="col" class="align-middle">Pekerjaan</th>
                             <th scope="col" class="align-middle">Status</th>
                             <th scope="col" class="align-middle">Penghasilan</th>
-                            <th scope="col" class="align-middle">Pekerjaan</th>
                             <th scope="col" class="align-middle">Terdampak</th>
                             <th scope="col" class="align-middle">Status <br> Penduduk</th>
                             <th scope="col" class="align-middle">Aksi</th>
@@ -68,7 +67,6 @@
                                 <td><?= $p['pekerjaan']; ?></td>
                                 <td><?= $p['status_c']; ?></td>
                                 <td><?= $p['penghasilan']; ?></td>
-                                <td><?= $p['pekerjaan']; ?></td>
                                 <td><?= $p['terdampak']; ?></td>
                                 <td><?= $p['status_pddk']; ?></td>
                                 <td style="width:30px;">
