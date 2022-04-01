@@ -11,6 +11,12 @@ class model_periode extends CI_Model
         return $this->db->get('tb_periode');
     }
 
+    public function tahun_periode_id($id_periode)
+    {
+        $this->db->where('id_periode', $id_periode);
+        return $this->db->get('tb_periode');
+    }
+
     public function get_new_periode()
     {
         $this->db->limit(1);

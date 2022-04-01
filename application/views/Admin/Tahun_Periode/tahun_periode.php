@@ -18,16 +18,18 @@
             <hr>
             <div class="table-responsive">
                 <table id="example" class="table table-bordered text-center">
-                    <thead>
+                    <thead style="font-size: 13px;">
                         <tr>
                             <th scope="col" class="align-middle">No</th>
                             <th scope="col" class="align-middle">Nama Periode</th>
                             <th scope="col" class="align-middle">Tanggal Periode</th>
+                            <th scope="col" class="align-middle">Anggaran</th>
+                            <th scope="col" class="align-middle">Kuota</th>
                             <th scope="col" class="align-middle">Keterangan</th>
                             <th scope="col" class="align-middle">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody style="font-size: 13px;">
                         <?php $no = 1; ?>
                         <?php foreach ($periode as $p) : ?>
                             <tr>
@@ -38,6 +40,8 @@
                                     $date_akhir = date_create($p['tanggal_akhir']); ?>
                                     <?= date_format($date_awal, "d, M Y"); ?> - <?= date_format($date_akhir, "d, M Y"); ?>
                                 </td>
+                                <td>Rp. <?php echo number_format($p['anggaran'], 0, '.', '.') ?></td>
+                                <td><?= $p['kuota']; ?> Orang</td>
                                 <td><?= $p['keterangan']; ?></td>
                                 <td style="width:30px;">
                                     <a href="<?= base_url('admin/tahunperiode/hapus/') . $p['id_periode']; ?>" class="btn btn-danger"><i class="bi bi-trash"></i></a>

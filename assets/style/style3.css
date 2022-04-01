@@ -30,6 +30,14 @@ a[data-toggle="collapse"] {
 	transform: translateY(-50%);
 }
 
+.btn{
+	font-size: 13px;
+}
+
+.btn span{
+	font-size: 13px;
+}
+
 @media (max-width: 768px) {
 	#sidebar {
 		margin-left: -200px;

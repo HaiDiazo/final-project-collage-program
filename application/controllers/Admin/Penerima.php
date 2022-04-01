@@ -144,17 +144,17 @@ class Penerima extends CI_Controller
         $this->load->view("admin/layout_admin/layout_footer");
     }
 
-    public function hapus_penerima($id)
+    public function hapus_penerima($id_periode, $id)
     {
         $this->model_penerima->hapus_penerima($id);
         $delete = $this->db->affected_rows() != 1 ? false : true;
 
         if ($delete > 0) {
             echo "Sukses Diupdate";
-            redirect('admin/penerima');
+            redirect('admin/penerima/periode/' . $id_periode);
         } else {
             echo "Gagal Update";
-            redirect('admin/penerima');
+            redirect('admin/penerima/periode/' . $id_periode);
         }
     }
 
@@ -239,7 +239,8 @@ class Penerima extends CI_Controller
             redirect('admin/penerima/tambah_penerima/' . $id_periode);
         } else {
             foreach ($data as $d) {
-                $data = $this->model_penerima->cek_status($d, $status);
+                $data = $this->model_penerima->cek_status($d);
+
                 echo "Data: " . $data->num_rows();
                 if ($data->num_rows() != 0) {
                     $update = array(

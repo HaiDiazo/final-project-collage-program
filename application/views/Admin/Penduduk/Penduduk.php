@@ -38,7 +38,7 @@
             <hr>
             <div class="table-responsive">
                 <table id="example" class="table table-bordered text-center">
-                    <thead>
+                    <thead style="font-size: 13px;">
                         <tr>
                             <th scope="col" class="align-middle">No</th>
                             <th scope="col" class="align-middle">Nama</th>
@@ -54,7 +54,7 @@
                             <th scope="col" class="align-middle">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody style="font-size: 13px;">
                         <?php $no = 1; ?>
                         <?php foreach ($penduduk as $p) : ?>
                             <tr>

@@ -13,6 +13,11 @@ class model_alternatif extends CI_Model
         return $this->db->query("SELECT * FROM alternatif WHERE id_penduduk IN (SELECT id_penduduk FROM tb_penduduk WHERE id_periode = $id_periode)");
     }
 
+    public function sort_alternatif($id_periode)
+    {
+        return $this->db->query("SELECT * FROM alternatif INNER JOIN tb_penduduk USING(id_penduduk) WHERE id_penduduk IN (SELECT id_penduduk FROM tb_penduduk WHERE id_periode = $id_periode) ORDER BY skor DESC ");
+    }
+
     public function insert_alternatif($data)
     {
         $this->db->insert($this->table, $data);

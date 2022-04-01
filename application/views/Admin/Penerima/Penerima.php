@@ -7,7 +7,7 @@
         <div class="card-body">
             <div class="d-flex align-items-center">
                 <div class="mr-1">
-                    <a href="<?= base_url('admin/penerima/tambah_penerima/') . $id_periode; ?>" class="btn btn-success <?php if ($cek_periode == 0) echo "disabled"; ?>"><i class="bi bi-plus-lg"></i> <span style="font-size: 15px;">Tambah</span></a>
+                    <a href="<?= base_url('admin/penerima/tambah_penerima/') . $id_periode; ?>" class="btn btn-success <?php if ($cek_periode == 0) echo "disabled"; ?>"><i class="bi bi-plus-lg"></i> <span>Tambah</span></a>
                 </div>
                 <div class="dropdown mr-auto">
                     <button class="btn btn-warning <?php if ($cek_periode == 0) echo "disabled"; ?>" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -37,7 +37,7 @@
             <hr>
             <div class="table-responsive">
                 <table id="example" class="table table-bordered text-center">
-                    <thead>
+                    <thead style="font-size: 13px;">
                         <tr>
                             <th scope="col" class="align-middle">No</th>
                             <th scope="col" class="align-middle">Nama</th>
@@ -54,7 +54,7 @@
                             <th scope="col" class="align-middle">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody style="font-size: 13px;">
                         <?php $no = 1; ?>
                         <?php foreach ($penerima as $p) : ?>
                             <tr>
@@ -76,7 +76,7 @@
                                     </form>
                                 </td>
                                 <td style="width:30px;">
-                                    <a href="<?= base_url('admin/penerima/hapus_penerima/') . $p['id_penerima']; ?>" class="btn btn-danger" style="height: 38px;"><i class="bi bi-trash pt-2"></i></a>
+                                    <a href="<?= base_url('admin/penerima/hapus_penerima/') . $id_periode . '/' . $p['id_penerima']; ?>" class="btn btn-danger" style="height: 38px;"><i class="bi bi-trash pt-2"></i></a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

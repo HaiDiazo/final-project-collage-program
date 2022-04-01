@@ -192,55 +192,10 @@ class Hasil extends CI_Controller
         $this->load->view("admin/layout_admin/layout_footer");
     }
 
-    public function implementWBobot($id_periode, $accept = null)
+    private function subtitusiBobot($column, $data_penduduk, $kr_bobot)
     {
-        $nama_user = $this->session->userdata('nama');
-        $title = 'Proses Subtitusi Bobot AHP';
-        $data = [
-            'spk' => 'hasil',
-            'title' => $title,
-            'nama_user' => $nama_user,
-            'navigasi' => $this->navigasi(' <a href="' . base_url('admin/spk/hasil') . '">Implementasi AHP</a> / ' . $title),
-        ];
-
-        // get data penduduk berdasarkan periode
-        $data_penduduk = $this->model_penduduk->penduduk_periode($id_periode);
-
-        // get data kriteria bobot
-        $kr_bobot = $this->model_kriteria->data_kriteria()->result_array();
-
-        // get data subkriteria bobot
-        $subkr_bobot = $this->model_subkriteria->data_subkriteria(3)->result_array();
-
-        // get nama kolom tabel penduduk
-        $column = array();
-        $column2 = array();
-        $nm_column = $this->model_penduduk->get_column_name()->result_array();
-        for ($i = 4; $i < count($nm_column); $i++) {
-            if ($i != 7 && $i != 11) {
-                array_push($column, $nm_column[$i]['Field']);
-                array_push($column2, $nm_column[$i]['Field']);
-            }
-        }
+        $column2 = $column;
         $column2[5] = "status_penduduk";
-
-        // End get nama kolom
-        // print_r($column2);
-
-        // echo is_numeric($subkr_bobot[5]['nama_subkriteria']);
-        $pieces = explode(" ", $subkr_bobot[2]['nama_subkriteria']);
-
-        // echo "<br>";
-
-        // echo count($pieces);
-        // if ($pieces[1] == "-") {
-        //     echo $pieces[1];
-        // } else {
-        //     echo "Bukan";
-        // }
-
-
-        // Proses subtitusi 
 
         $no_p = 0;
         $score = array();
@@ -263,6 +218,7 @@ class Hasil extends CI_Controller
 
                             if (count($pieces) > 2) {
                                 if ($pieces[1] == "-") {
+
                                     // $operator = $pieces[0] . " <= " . $dp[$column[$i]] . " && " . $dp[$column[$i]] . " <= " . $pieces[2];
 
                                     if ($pieces[0] <= $dp[$column[$i]] && $dp[$column[$i]] <= $pieces[2]) {
@@ -290,8 +246,11 @@ class Hasil extends CI_Controller
             $no_p++;
         }
 
-        // print_r($score);
-        // Total 1 baris untuk mulai diurutkan
+        return $score;
+    }
+
+    private function jumTotalBobot($score)
+    {
         $i = 0;
         $total = array();
         foreach ($score as $sc) {
@@ -305,13 +264,70 @@ class Hasil extends CI_Controller
             $total[$i]['total'] = $temp;
             $i++;
         }
+
+        return $total;
+    }
+
+    public function implementWBobot($id_periode, $accept = null)
+    {
+        $nama_user = $this->session->userdata('nama');
+        $title = 'Proses Subtitusi Bobot AHP';
+        $data = [
+            'spk' => 'hasil',
+            'title' => $title,
+            'nama_user' => $nama_user,
+            'navigasi' => $this->navigasi(' <a href="' . base_url('admin/spk/hasil') . '">Implementasi AHP</a> / ' . ' <a href="' . base_url('admin/spk/hasil/cek_implementasi/') . $id_periode . '">Cek Data Terhadap SubKriteria </a> / ' . $title),
+        ];
+
+        // get data penduduk berdasarkan periode
+        $data_penduduk = $this->model_penduduk->penduduk_periode($id_periode);
+
+        // get data kriteria bobot
+        $kr_bobot = $this->model_kriteria->data_kriteria()->result_array();
+
+        // get data subkriteria bobot
+        // $subkr_bobot = $this->model_subkriteria->data_subkriteria(3)->result_array();
+
+        // get nama kolom tabel penduduk
+        $column = array();
+        $column2 = array();
+        $nm_column = $this->model_penduduk->get_column_name()->result_array();
+        for ($i = 4; $i < count($nm_column); $i++) {
+            if ($i != 7 && $i != 11) {
+                array_push($column, $nm_column[$i]['Field']);
+                array_push($column2, $nm_column[$i]['Field']);
+            }
+        }
+        $column2[5] = "status_penduduk";
+
+        // End get nama kolom
+        // print_r($column2);
+
+        // echo is_numeric($subkr_bobot[5]['nama_subkriteria']);
+        // $pieces = explode(" ", $subkr_bobot[2]['nama_subkriteria']);
+
+        // echo "<br>";
+
+        // echo count($pieces);
+        // if ($pieces[1] == "-") {
+        //     echo $pieces[1];
+        // } else {
+        //     echo "Bukan";
+        // }
+
+        // Proses subtitusi 
+        $score = $this->subtitusiBobot($column, $data_penduduk, $kr_bobot);
+        // end proses subtitusi
+
+        // Jumlah 1 baris untuk mulai diurutkan
+        $total = $this->jumTotalBobot($score);
+        // End proses total
+
+        // print_r($score);
         // echo "<br><br><br>";
         // print_r($total);
 
         // Insert ke tabel alternatif
-
-
-
         if ($accept != null && $accept == 1) {
 
             // Cek apakah sudah ada?
@@ -334,7 +350,7 @@ class Hasil extends CI_Controller
                 }
             }
 
-            redirect('admin/spk/hasil/urut/' . $id_periode);
+            redirect('admin/spk/hasil/scoring/' . $id_periode);
         }
 
         $data['id_periode'] = $id_periode;
@@ -343,15 +359,100 @@ class Hasil extends CI_Controller
         $data['score'] = $score;
         $data['total'] = $total;
 
-        // print_r($total);
+        // // print_r($total);
 
         $this->load->view("admin/layout_admin/layout_header", $data);
         $this->load->view("admin/spk/hasil/hasil_urut", $data);
         $this->load->view("admin/layout_admin/layout_footer");
     }
 
-    public function urut($id_periode)
+    public function scoring($id_periode, $accept = null)
     {
-        $id_periode;
+        $nama_user = $this->session->userdata('nama');
+        $title = 'Proses Subtitusi Bobot AHP';
+        $data = [
+            'spk' => 'hasil',
+            'title' => $title,
+            'nama_user' => $nama_user,
+            'navigasi' => $this->navigasi(' <a href="' . base_url('admin/spk/hasil') . '">Implementasi AHP</a> / ' . ' <a href="' . base_url('admin/spk/hasil/cek_implementasi/') . $id_periode . '">Cek Data Terhadap SubKriteria </a> / ' . ' <a href="' . base_url('admin/spk/hasil/implementWBobot/') . $id_periode . '">Proses Subtitusi Bobot AHP </a> / ' . $title),
+        ];
+
+        // Inisialisasi
+        $alternatif = $this->model_alternatif->sort_alternatif($id_periode)->result_array();
+        $periode = $this->model_periode->tahun_periode_id($id_periode)->row_array();
+        // End inisialisasi
+
+        // Dana untuk yang diterima
+        $dana = $periode['anggaran'] / $periode['kuota'];
+        $dana = round($dana, 0);
+        // End
+
+        // Input array
+        $score = array();
+        $i = 0;
+        foreach ($alternatif as $al) {
+            if ($i <= $periode['kuota'] - 1) {
+                $score[$i] = array(
+                    'id_penduduk' => $al['id_penduduk'],
+                    'nama' => $al['nama'],
+                    'nik' => $al['nik'],
+                    'alamat' => $al['alamat'],
+                    'score' => $al['skor'],
+                    'anggaran' => $dana,
+                    'status' => 'Diterima'
+                );
+            } else {
+                $score[$i] = array(
+                    'id_penduduk' => $al['id_penduduk'],
+                    'nama' => $al['nama'],
+                    'nik' => $al['nik'],
+                    'alamat' => $al['alamat'],
+                    'score' => $al['skor'],
+                    'anggaran' => 0,
+                    'status' => 'Ditolak'
+                );
+            }
+            $i++;
+        }
+        // End 
+
+
+        if ($accept != null && $accept == 1) {
+
+            foreach ($score as $sc) {
+
+                $cek = $this->model_penerima->cek_status($sc['id_penduduk']);
+
+                if ($cek->num_rows() != 0) {
+                    $update = array(
+                        'tgl_penerima' => date("Y-m-d"),
+                        'dana' => $sc['anggaran'],
+                        'status' => $sc['status']
+                    );
+
+                    $this->model_penerima->update_status($sc['id_penduduk'], $update);
+                } else {
+                    $insert = array(
+                        'tgl_penerima' => date("Y-m-d"),
+                        'id_penduduk' => $sc['id_penduduk'],
+                        'dana' => $sc['anggaran'],
+                        'status' => $sc['status']
+                    );
+
+                    $this->model_penerima->insert_status($insert);
+                }
+            }
+
+            redirect('admin/penerima/periode/' . $id_periode);
+        }
+
+        // print_r($dicari);
+
+        $data['data_scroring'] = $score;
+        $data['id_periode'] = $id_periode;
+
+        $this->load->view("admin/layout_admin/layout_header", $data);
+        $this->load->view("admin/spk/hasil/score_desc", $data);
+        $this->load->view("admin/layout_admin/layout_footer");
     }
 }

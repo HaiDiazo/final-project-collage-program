@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="<?= base_url('assets/style/style2.css'); ?>" type="text/css">
+    <link rel="stylesheet" href="<?= base_url('assets/style/style3.css'); ?>" type="text/css">
     <link rel="stylesheet" href="<?= base_url('assets/style/styleme.css'); ?>" type="text/css">
 
     <!-- DataTables -->
