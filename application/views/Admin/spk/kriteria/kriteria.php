@@ -8,8 +8,9 @@
                 <table class="table table-bordered" style="max-width: 40rem;">
                     <thead>
                         <tr style="background-color: #F9FAFB; font-size: 13px;">
-                            <th colspan=" 2">Pilih yang lebih penting</th>
+                            <th>Kriteria 1</th>
                             <th>Nilai perbandingan</th>
+                            <th>Kriteria 2</th>
                         </tr>
                     </thead>
                     <tbody style="font-size: 13px;">
@@ -27,38 +28,21 @@
                                     </div>
                                     <tr>
                                         <td>
-                                            <div class=" form-check">
-                                                <div>
-                                                    <input type="text" name="kriteria1[]" value="<?= $id_kriteria[$i]; ?>" hidden>
-                                                </div>
-                                                <label class="form-check-label">
-                                                    <input type="radio" class="form-check-input" name="elemen<?= $var; ?>" value="<?= $id_kriteria[$i]; ?>_1" <?php if ($db_set_radio[$var] == 1) echo "checked"; ?>><?= $kriteria_arr[$i]; ?>
-                                                </label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-check">
-                                                <div>
-                                                    <input type="text" name="kriteria2[]" value="<?= $id_kriteria[$start + $i]; ?>" hidden>
-                                                </div>
-                                                <label class="form-check-label">
-                                                    <input type="radio" class="form-check-input" name="elemen<?= $var; ?>" value="<?= $id_kriteria[$start + $i]; ?>_2" <?php if ($db_set_radio[$var] == 2) echo "checked"; ?>><?= $kriteria_arr[$start + $i]; ?>
-                                                </label>
-                                            </div>
+                                            <input type="text" name="kriteria1[]" value="<?= $id_kriteria[$i]; ?>" hidden>
+                                            <?= $kriteria_arr[$i]; ?>
                                         </td>
                                         <td>
                                             <select class="custom-select" name="nilaiElemen<?= $var; ?>">
                                                 <option value="" <?php if ($nilai_perb[$var] == 0 || $nilai_perb[$var] == null) echo "selected"; ?>>Pilih tingkat kepentingan</option>
-                                                <option value="1" <?php if ($nilai_perb[$var] == 1) echo "selected"; ?>>1 ; Kedua elemen sama penting</option>
-                                                <option value="2" <?php if ($nilai_perb[$var] == 2) echo "selected"; ?>>2 ; Setara menuju cukup diutamakan</option>
-                                                <option value="3" <?php if ($nilai_perb[$var] == 3) echo "selected"; ?>>3 ; Cukup diutamakan</option>
-                                                <option value="4" <?php if ($nilai_perb[$var] == 4) echo "selected"; ?>>4 ; Cukup diutamakan menuju diutamakan</option>
-                                                <option value="5" <?php if ($nilai_perb[$var] == 5) echo "selected"; ?>>5 ; Diutamakan</option>
-                                                <option value="6" <?php if ($nilai_perb[$var] == 6) echo "selected"; ?>>6 ; Diutamakan menuju lebih diutamakan</option>
-                                                <option value="7" <?php if ($nilai_perb[$var] == 7) echo "selected"; ?>>7 ; Lebih diutamakan</option>
-                                                <option value="8" <?php if ($nilai_perb[$var] == 8) echo "selected"; ?>>8 ; Lebih diutamakan menuju sangat diutamakan</option>
-                                                <option value="9" <?php if ($nilai_perb[$var] == 9) echo "selected"; ?>>9 ; Sangat diutamakan</option>
+                                                <option value="9_1">9; Kriteria <?= $kriteria_arr[$i]; ?> mutlak diutamakan </option>
+                                                <option value="7_1">9; Kriteria <?= $kriteria_arr[$i]; ?> sangat diutamakan </option>
                                             </select>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <input type="text" name="kriteria2[]" value="<?= $id_kriteria[$start + $i]; ?>" hidden>
+                                                <?= $kriteria_arr[$start + $i]; ?>
+                                            </div>
                                         </td>
                                     </tr>
                         <?php

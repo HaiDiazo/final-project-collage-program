@@ -45,4 +45,15 @@ class model_periode extends CI_Model
     {
         $this->db->insert($this->table, $data);
     }
+
+    public function get_anggaran_periode()
+    {
+        return $this->db->query('SELECT nama_periode, anggaran FROM tb_periode');
+    }
+
+    public function sum_anggaran()
+    {
+        $query = $this->db->query("SELECT SUM(anggaran) as jumlah FROM tb_periode")->row_array();
+        return $query['jumlah'];
+    }
 }

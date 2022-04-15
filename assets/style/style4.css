@@ -1,8 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+
 .wrapper {
 	display: flex;
 	width: 100%;
 	align-items: stretch;
 }
+
 
 .content {
 	width: 100%;
@@ -97,7 +100,7 @@ a:focus {
 
 #sidebar ul li a {
 	padding: 10px;
-	font-size: 0.9em;
+	font-size: 0.8em;
 	display: block;
 }
 #sidebar ul li a:hover {
@@ -116,7 +119,7 @@ a[aria-expanded="true"] {
 }
 
 ul ul a {
-	font-size: 0.9em !important;
+	font-size: 0.8em !important;
 	padding-left: 30px !important;
 	background: #26292c;
 }

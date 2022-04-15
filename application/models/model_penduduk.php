@@ -46,4 +46,9 @@ class model_penduduk extends CI_Model
     {
         return $this->db->query("SHOW COLUMNS FROM $this->table");
     }
+
+    public function get_sum_pekerjaan()
+    {
+        return $this->db->query("SELECT COUNT(*) as jumlah, pekerjaan FROM tb_penduduk GROUP BY pekerjaan");
+    }
 }

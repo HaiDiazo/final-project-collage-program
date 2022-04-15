@@ -30,8 +30,8 @@
                             <th scope="col" class="align-middle">No</th>
                             <th scope="col" class="align-middle">Nama Periode</th>
                             <th scope="col" class="align-middle">Tanggal Periode</th>
+                            <th scope="col" class="align-middle">Anggaran</th>
                             <th scope="col" class="align-middle">Kuota</th>
-                            <th scope="col" class="align-middle">Keterangan</th>
                             <th scope="col" class="align-middle">Keterangan</th>
                             <th scope="col" class="align-middle">Implementasi AHP</th>
                         </tr>

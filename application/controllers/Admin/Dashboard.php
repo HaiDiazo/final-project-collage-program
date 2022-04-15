@@ -25,6 +25,27 @@ class Dashboard extends CI_Controller
             'nama_user' => $nama_user,
         ];
 
+        // Periode 
+        $total_periode = $this->model_periode->tahun_periode()->result_array();
+        $periode = $this->model_periode->get_anggaran_periode()->result_array();
+
+        // Pekerjaan
+        $pekerjaan = $this->model_penduduk->get_sum_pekerjaan()->result_array();
+
+        // Data
+        $penduduk = $this->model_penduduk->data_penduduk();
+
+        // Kriteria
+        $kriteria = $this->model_kriteria->data_kriteria();
+
+        // Total anggaran semua periode 
+        $data['total_kriteria'] = $kriteria->num_rows();
+        $data['total_data'] = $penduduk->num_rows();
+        $data['total_anggaran'] = $this->model_periode->sum_anggaran();
+        $data['periode'] = $periode;
+        $data['pekerjaan_total'] = $pekerjaan;
+        $data['total_periode'] = count($total_periode);
+
         $this->load->view("admin/layout_admin/layout_header", $data);
         $this->load->view("admin/Dashboard", $data);
         $this->load->view("admin/layout_admin/layout_footer");

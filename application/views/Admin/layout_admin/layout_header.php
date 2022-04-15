@@ -8,10 +8,10 @@
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="<?= base_url('assets/bootstrap/css/bootstrap.min.css'); ?>">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="<?= base_url('assets/style/style3.css'); ?>" type="text/css">
+    <link rel="stylesheet" href="<?= base_url('assets/style/style4.css'); ?>" type="text/css">
     <link rel="stylesheet" href="<?= base_url('assets/style/styleme.css'); ?>" type="text/css">
 
     <!-- DataTables -->
@@ -22,11 +22,12 @@
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/a81368914c.js"></script>
+    <script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script src="<?= base_url('assets/bootstrap/js/jquery.min.js'); ?>"></script>
     <style>
         body {
-            font-family: "Poppins", sans-serif;
+            font-family: 'Montserrat', sans-serif;
         }
     </style>
     <title><?= $title; ?></title>
@@ -42,18 +43,18 @@
                 <li class="<?php if ($title == "Dashboard") {
                                 echo "active";
                             } ?>">
-                    <a href="<?= base_url('admin/dashboard'); ?>">Dashboard</a>
+                    <a href="<?= base_url('admin/dashboard'); ?>"><i class="bi bi-house-fill"></i> Dashboard</a>
                 </li>
 
                 <!-- Dropdown Data Master -->
                 <li>
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Data Master</a>
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="bi bi-inboxes-fill"></i> Data Master</a>
                     <ul class="collapse list-unstyled <?php if (isset($data_master)) echo "show"; ?>" id="homeSubmenu">
                         <li>
                             <a href="<?= base_url('admin/tahunperiode'); ?>" class="<?php if (isset($data_master)) if ($data_master == 'periode') echo 'active'; ?>">Tahun Periode</a>
                         </li>
                         <li>
-                            <a href="<?= base_url('admin/penduduk'); ?>" class="<?php if (isset($data_master)) if ($data_master == 'penduduk') echo 'active'; ?>">Data Penduduk</a>
+                            <a href="<?= base_url('admin/penduduk'); ?>" class="<?php if (isset($data_master)) if ($data_master == 'penduduk') echo 'active'; ?>">Data Penduduk </a>
                         </li>
                         <li>
                             <a href="<?= base_url('admin/penerima'); ?>" class="<?php if (isset($data_master)) if ($data_master == 'penerima') echo 'active'; ?>">Data Penerima Bantuan</a>
@@ -63,7 +64,7 @@
                 <!-- End Dropdown -->
 
                 <li>
-                    <a href="#homeSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Sistem Pendukung Keputusan (AHP)</a>
+                    <a href="#homeSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="bi bi-clipboard-data-fill"></i> Sistem Pendukung Keputusan (AHP)</a>
                     <ul class="collapse list-unstyled <?php if (isset($spk)) echo 'show'; ?>" id="homeSubmenu2">
                         <li>
                             <a href="<?= base_url('admin/spk/kriteria'); ?>" class="<?php if (isset($spk)) if ($spk == 'kriteria') echo 'active'; ?>">Prioritas Elemen Kriteria</a>
@@ -82,13 +83,13 @@
                 <li class="<?php if ($title == 'Cetak Laporan') {
                                 echo 'active';
                             } ?>">
-                    <a href="<?= base_url('admin/cetak'); ?>">Cetak Laporan</a>
+                    <a href="<?= base_url('admin/cetak'); ?>"><i class="bi bi-printer-fill"></i> Cetak Laporan</a>
                 </li>
                 <li>
-                    <a href="#">Tentang Aplikasi</a>
+                    <a href="#"><i class="bi bi-question-circle-fill"></i> Tentang Aplikasi</a>
                 </li>
                 <li>
-                    <a href="<?= base_url('login/logout'); ?>">Logout</a>
+                    <a href="<?= base_url('login/logout'); ?>"><i class="bi bi-door-open-fill"></i> Logout</a>
                 </li>
             </ul>
         </nav>

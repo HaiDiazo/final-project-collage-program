@@ -23,7 +23,7 @@
                     <input type="text" id="InputAnggaran" name="anggaran" class="form-control" placeholder="Masukan jumlah anggaran..." aria-describedby="basic-addon1">
                 </div>
 
-                <label for="InputNamaPeriode">Kuota</label>
+                <label for="InputNamaPeriode">Kuota Diterima</label>
                 <div class="input-group mb-3 w-50">
                     <input type="text" name="kuota" class="form-control" placeholder="Masukan jumlah kuota..." aria-describedby="basic-addon2">
                     <div class="input-group-append">

@@ -220,6 +220,17 @@
                             </tr>
                         </tbody>
                     </table>
+                    <hr>
+                    <div style="max-width: 30rem;">
+                        <h5>Kesimpulan</h5>
+                        <?php if ($cons_rasio < 0.1) { ?>
+                            <p style="font-size: 14px;">Dengan Consistensi Rasio yang telah didapatkan bahwa yaitu sebesar <span class="font-weight-bold"><?= round($cons_rasio, 3); ?> < 0.1</span> atau lebih kecil dari 0.1, maka perbandigan elemen sebelumnya adalah <span class="font-weight-bold">KONSISTEN</span>.
+                            </p>
+                        <?php } else { ?>
+                            <p style="font-size: 14px;">Dengan Consistensi Rasio yang telah didapatkan bahwa yaitu sebesar <span class="font-weight-bold"><?= round($cons_rasio, 3); ?> < 0.1</span> atau lebih besar dari 0.1, maka perbandigan elemen sebelumnya adalah <span class="font-weight-bold">TIDAK KONSISTEN</span>.
+                            </p>
+                        <?php } ?>
+                    </div>
                 </div>
                 <!-- End consistensi index dan consistensi rasio -->
             </div>

@@ -3,7 +3,9 @@
         <div class="card-body">
             <div class="d-flex align-items-center">
                 <div class="mr-auto bd-highlight">
-                    <a href="<?= base_url('admin/tahunPeriode/tambah_periode'); ?>" class="btn btn-success"><i class="bi bi-plus-lg"></i> <span style="font-size: 15px;">Tambah</span></a>
+                    <a href="<?= base_url('admin/tahunPeriode/tambah_periode'); ?>" class="btn btn-success"><i class="bi bi-plus-lg"></i>
+                        <span>Tambah</span>
+                    </a>
                 </div>
                 <div class="">
                     <div class="input-icons">

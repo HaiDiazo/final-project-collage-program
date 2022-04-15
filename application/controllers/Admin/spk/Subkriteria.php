@@ -219,9 +219,12 @@ class Subkriteria extends CI_Controller
         }
     }
 
-    public function hapus_sub($id_subkriteria)
+    public function hapus_sub($id_subkriteria, $kriteria)
     {
         $this->model_subkriteria->hapus_sub($id_subkriteria);
+
+        // delete perbandingan sebelumnya
+        $this->model_subkriteria->delete_perbandingan_subkrit($kriteria);
         $delete = $this->db->affected_rows() != 1 ? false : true;
 
         if ($delete == 1) {

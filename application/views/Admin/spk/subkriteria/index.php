@@ -39,7 +39,7 @@
                                         
                                         <a href="' . base_url('admin/spk/subkriteria/edit_sub/') . $subkr['id_subkriteria'] . '" class="btn btn-warning" style="font-size:11px;"><i class="bi bi-pencil-square"></i></a>
 
-                                        <a href="' . base_url('admin/spk/subkriteria/hapus_sub/') . $subkr['id_subkriteria'] . '" class="btn btn-danger" style="font-size:11px;"><i class="bi bi-trash"></i></a>
+                                        <a href="' . base_url('admin/spk/subkriteria/hapus_sub/') . $subkr['id_subkriteria'] . '/' . $kr['id_kriteria'] . '" class="btn btn-danger" style="font-size:11px;"><i class="bi bi-trash"></i></a>
                                         
                                         </td>';
 
@@ -69,7 +69,7 @@
                                         
                                         <a href="' . base_url('admin/spk/subkriteria/edit_sub/') . $subkr['id_subkriteria'] . '" class="btn btn-warning" style="font-size:11px;"><i class="bi bi-pencil-square"></i></a>
 
-                                        <a href="' . base_url('admin/spk/subkriteria/hapus_sub/') . $subkr['id_subkriteria'] . '" class="btn btn-danger" style="font-size:11px;"><i class="bi bi-trash"></i></a>
+                                        <a href="' . base_url('admin/spk/subkriteria/hapus_sub/') . $subkr['id_subkriteria'] . '/' . $kr['id_kriteria'] . '" class="btn btn-danger" style="font-size:11px;"><i class="bi bi-trash"></i></a>
                                         
                                         </td>';
                                         echo "</tr>";

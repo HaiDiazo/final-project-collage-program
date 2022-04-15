@@ -5,7 +5,7 @@
             <div class="d-flex align-items-center">
                 <div class="mr-auto bd-highlight">
                     <?php if (!count($error_data) > 0) { ?>
-                        <a href="<?= base_url('admin/spk/hasil/implementWBobot/') . $id_periode; ?>" class="btn btn-primary"><span style="font-size: 15px;">Lanjut Proses</span> <i class="bi bi-arrow-right"></i></a>
+                        <a href="<?= base_url('admin/spk/hasil/implementWBobot/') . $id_periode; ?>" class="btn btn-primary"><span>Lanjut Proses</span> <i class="bi bi-arrow-right"></i></a>
                     <?php } else { ?>
                         <a href="#" class="btn btn-primary disabled"><span style="font-size: 15px;">Lanjut Proses</span> <i class="bi bi-arrow-right"></i></a>
                     <?php } ?>
@@ -26,7 +26,7 @@
                     <?php
                     $i = 1;
                     foreach ($error_data as $ed) {
-                        echo "<span style='font-size: 13px;'>[" . $i++ . "] Error subkriteria pada data dengan NIK : " . $ed['nama'] . "</span>";
+                        echo "<span style='font-size: 13px;'>[" . $i++ . "] Error subkriteria pada data dengan NAMA : " . $ed['nama'] . "</span>";
                         echo "<br>";
                     }
                     ?>
@@ -35,7 +35,7 @@
 
             <div class="table-responsive">
                 <table id="example" class="table table-bordered text-center">
-                    <thead>
+                    <thead style="font-size: 13px;">
                         <tr>
                             <th scope="col" class="align-middle">No</th>
                             <th scope="col" class="align-middle">Nama</th>
@@ -47,7 +47,7 @@
                             <th scope="col" class="align-middle">Status <br> Penduduk</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody style="font-size: 13px;">
                         <?php $no = 1; ?>
                         <?php foreach ($penduduk as $p) : ?>
                             <tr>

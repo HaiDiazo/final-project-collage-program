@@ -98,7 +98,7 @@ class Kriteria extends CI_Controller
             array_push($pilihan, substr($this->input->post('elemen' . $i), -1));
             array_push($nilai_elemen, $this->input->post('nilaiElemen' . $i));
         }
-        // end 
+        // end         
 
         //** input into database
 
@@ -138,7 +138,7 @@ class Kriteria extends CI_Controller
                 $this->model_kriteria->update_if_exist($data, $where);
             }
 
-            redirect('admin/spk/proses/proses_kriteria');
+            // redirect('admin/spk/proses/proses_kriteria');
         }
         // * end cek 
         //** end input database

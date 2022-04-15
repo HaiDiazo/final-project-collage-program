@@ -4,8 +4,8 @@
         <div class="card-body">
             <div class="d-flex align-items-center">
                 <div class="mr-1">
-                    <a href="<?= base_url('admin/penduduk/tambah_penduduk/') . $id_periode; ?>" class="btn btn-success <?php if ($cek_periode == 0) echo "disabled"; ?>"><i class="bi bi-plus-lg"></i> <span style="font-size: 15px;">Tambah</span></a>
-                    <a href="<?= base_url('admin/penduduk/import_menu/') . $id_periode; ?>" class="btn btn-success <?php if ($cek_periode == 0) echo "disabled"; ?>"><i class="bi bi-file-earmark-arrow-up"></i></i> <span style="font-size: 15px;">Import</span></a>
+                    <a href="<?= base_url('admin/penduduk/tambah_penduduk/') . $id_periode; ?>" class="btn btn-success <?php if ($cek_periode == 0) echo "disabled"; ?>"><i class="bi bi-plus-lg"></i> Tambah</span></a>
+                    <a href="<?= base_url('admin/penduduk/import_menu/') . $id_periode; ?>" class="btn btn-success <?php if ($cek_periode == 0) echo "disabled"; ?>"><i class="bi bi-file-earmark-arrow-up"></i></i> <span style="font-size: 13px;">Import</span></a>
                 </div>
                 <div class="dropdown mr-auto">
                     <button class="btn btn-warning <?php if ($cek_periode == 0) echo "disabled"; ?>" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

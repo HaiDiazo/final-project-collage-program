@@ -369,7 +369,7 @@ class Hasil extends CI_Controller
     public function scoring($id_periode, $accept = null)
     {
         $nama_user = $this->session->userdata('nama');
-        $title = 'Proses Subtitusi Bobot AHP';
+        $title = 'Proses Scoring Dan Status';
         $data = [
             'spk' => 'hasil',
             'title' => $title,
@@ -417,7 +417,7 @@ class Hasil extends CI_Controller
         // End 
 
 
-        if ($accept != null && $accept == 1) {
+        if ($accept != null && ($accept == 1)) {
 
             foreach ($score as $sc) {
 
@@ -442,7 +442,6 @@ class Hasil extends CI_Controller
                     $this->model_penerima->insert_status($insert);
                 }
             }
-
             redirect('admin/penerima/periode/' . $id_periode);
         }
 
@@ -454,5 +453,80 @@ class Hasil extends CI_Controller
         $this->load->view("admin/layout_admin/layout_header", $data);
         $this->load->view("admin/spk/hasil/score_desc", $data);
         $this->load->view("admin/layout_admin/layout_footer");
+    }
+
+    public function cek_akurasi($id_periode)
+    {
+        $this->load->library("excel");
+
+        $nama_user = $this->session->userdata('nama');
+        $title = 'Cek Akurasi Data';
+        $data = [
+            'spk' => 'hasil',
+            'title' => $title,
+            'nama_user' => $nama_user,
+            'navigasi' => $this->navigasi(' <a href="' . base_url('admin/spk/hasil') . '">Implementasi AHP</a> / ' . ' <a href="' . base_url('admin/spk/hasil/cek_implementasi/') . $id_periode . '">.</a> / ' . ' <a href="' . base_url('admin/spk/hasil/implementWBobot/') . $id_periode . '">. </a> / ' . ' <a href="' . base_url('admin/spk/hasil/scoring/') . $id_periode . '">Proses Scoring dan Status </a> / ' . $title),
+        ];
+
+        $this->form_validation->set_rules('file', 'File', 'callback_import_validation');
+
+
+        // Inisialisasi
+        $alternatif = $this->model_alternatif->sort_alternatif($id_periode)->result_array();
+        $periode = $this->model_periode->tahun_periode_id($id_periode)->row_array();
+
+        // Input array
+        $score = array();
+        $i = 0;
+        foreach ($alternatif as $al) {
+            if ($i <= $periode['kuota'] - 1) {
+                $score[$i] = array(
+                    'id_penduduk' => $al['id_penduduk'],
+                    'nama' => $al['nama'],
+                    'nik' => $al['nik'],
+                    'alamat' => $al['alamat'],
+                    'score' => $al['skor'],
+                    'status' => 'Diterima'
+                );
+            } else {
+                $score[$i] = array(
+                    'id_penduduk' => $al['id_penduduk'],
+                    'nama' => $al['nama'],
+                    'nik' => $al['nik'],
+                    'alamat' => $al['alamat'],
+                    'score' => $al['skor'],
+                    'status' => 'Ditolak'
+                );
+            }
+            $i++;
+        }
+        // End 
+
+        $data['hasil_ahp'] = $score;
+        $data['id_periode'] = $id_periode;
+
+        $this->load->view("admin/layout_admin/layout_header", $data);
+        $this->load->view("admin/spk/hasil/cek_akurasi", $data);
+        $this->load->view("admin/layout_admin/layout_footer");
+    }
+
+    public function import_validation()
+    {
+        if (isset($_FILES['file'])) {
+            $allowed = ['xls', 'xlsx'];
+
+            if (empty($_FILES['file']['name'])) {
+                $this->session->set_flashdata('import_validation', "Field tidak boleh kosong!");
+                return false;
+            } else if (!in_array(pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION), $allowed)) {
+                $this->session->set_flashdata('import_validation', 'File extensi bukan file excel');
+                return false;
+            } else if ($_FILES['file']['size'] >= 10485760) {
+                $this->session->set_flashdata('import_validation', 'File Max 10mb' . ', Ukuran file yang diupload: ' . $_FILES['file']['size']);
+                return false;
+            } else {
+                return true;
+            }
+        }
     }
 }
