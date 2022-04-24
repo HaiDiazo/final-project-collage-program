@@ -95,10 +95,11 @@ class Kriteria extends CI_Controller
 
         // Get data dari form
         for ($i = 0; $i < $jum; $i++) {
-            array_push($pilihan, substr($this->input->post('elemen' . $i), -1));
-            array_push($nilai_elemen, $this->input->post('nilaiElemen' . $i));
+            array_push($pilihan, substr($this->input->post('nilaiElemen' . $i), -1));
+            array_push($nilai_elemen, substr($this->input->post('nilaiElemen' . $i), 0, 1));
         }
         // end         
+
 
         //** input into database
 
@@ -138,7 +139,7 @@ class Kriteria extends CI_Controller
                 $this->model_kriteria->update_if_exist($data, $where);
             }
 
-            // redirect('admin/spk/proses/proses_kriteria');
+            redirect('admin/spk/proses/proses_kriteria');
         }
         // * end cek 
         //** end input database

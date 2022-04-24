@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="<?= base_url('assets/style/style4.css'); ?>" type="text/css">
+    <link rel="stylesheet" href="<?= base_url('assets/style/style5.css'); ?>" type="text/css">
     <link rel="stylesheet" href="<?= base_url('assets/style/styleme.css'); ?>" type="text/css">
 
     <!-- DataTables -->
@@ -29,6 +29,10 @@
         body {
             font-family: 'Montserrat', sans-serif;
         }
+
+        .me-text-bold {
+            color: black;
+        }
     </style>
     <title><?= $title; ?></title>
 </head>
@@ -36,19 +40,34 @@
 <body>
     <div class="wrapper">
         <nav id="sidebar" <?php if ($this->session->userdata('tombol') != 0) echo "class='active'"; ?>>
-            <div class="sidebar-header">
+            <!-- <div class="sidebar-header">
+                <h3>Ini Judul di Sidebar</h3>
+            </div> -->
 
-            </div>
             <ul class="list-unstyled components">
+                <div class="sidebar-heading">
+                    <div class="image">
+                        <span class="iconify box" data-icon="bx:user"></span>
+                    </div>
+                    <div class="text">
+                        <div class="text-name">
+                            Admin
+                        </div>
+                        <div class="text-status">
+                            <span class="iconify indicator-online" data-icon="akar-icons:circle-fill"></span> online
+                        </div>
+                    </div>
+                </div>
+
                 <li class="<?php if ($title == "Dashboard") {
                                 echo "active";
                             } ?>">
-                    <a href="<?= base_url('admin/dashboard'); ?>"><i class="bi bi-house-fill"></i> Dashboard</a>
+                    <a href="<?= base_url('admin/dashboard'); ?>"><i class="bi bi-house-fill mr-2"></i> Dashboard</a>
                 </li>
 
                 <!-- Dropdown Data Master -->
                 <li>
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="bi bi-inboxes-fill"></i> Data Master</a>
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="bi bi-inboxes-fill mr-2"></i> Data Master</a>
                     <ul class="collapse list-unstyled <?php if (isset($data_master)) echo "show"; ?>" id="homeSubmenu">
                         <li>
                             <a href="<?= base_url('admin/tahunperiode'); ?>" class="<?php if (isset($data_master)) if ($data_master == 'periode') echo 'active'; ?>">Tahun Periode</a>
@@ -64,7 +83,7 @@
                 <!-- End Dropdown -->
 
                 <li>
-                    <a href="#homeSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="bi bi-clipboard-data-fill"></i> Sistem Pendukung Keputusan (AHP)</a>
+                    <a href="#homeSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="bi bi-clipboard-data-fill mr-2"></i> Sistem Pendukung Keputusan (AHP)</a>
                     <ul class="collapse list-unstyled <?php if (isset($spk)) echo 'show'; ?>" id="homeSubmenu2">
                         <li>
                             <a href="<?= base_url('admin/spk/kriteria'); ?>" class="<?php if (isset($spk)) if ($spk == 'kriteria') echo 'active'; ?>">Prioritas Elemen Kriteria</a>
@@ -83,13 +102,13 @@
                 <li class="<?php if ($title == 'Cetak Laporan') {
                                 echo 'active';
                             } ?>">
-                    <a href="<?= base_url('admin/cetak'); ?>"><i class="bi bi-printer-fill"></i> Cetak Laporan</a>
+                    <a href="<?= base_url('admin/cetak'); ?>"><i class="bi bi-printer-fill mr-2"></i> Cetak Laporan</a>
                 </li>
                 <li>
-                    <a href="#"><i class="bi bi-question-circle-fill"></i> Tentang Aplikasi</a>
+                    <a href="#"><i class="bi bi-question-circle-fill mr-2"></i> Tentang Aplikasi</a>
                 </li>
                 <li>
-                    <a href="<?= base_url('login/logout'); ?>"><i class="bi bi-door-open-fill"></i> Logout</a>
+                    <a href="<?= base_url('login/logout'); ?>"><i class="bi bi-door-open-fill mr-2"></i> Logout</a>
                 </li>
             </ul>
         </nav>

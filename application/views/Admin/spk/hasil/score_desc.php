@@ -37,7 +37,7 @@
                                 <td><?= $ds['nama']; ?></td>
                                 <td><?= $ds['nik']; ?></td>
                                 <td><?= $ds['alamat']; ?></td>
-                                <td><?= $ds['score']; ?></td>
+                                <td><?= round($ds['score'], 4); ?></td>
                                 <td><?= $ds['status']; ?></td>
                             </tr>
                         <?php endforeach; ?>

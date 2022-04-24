@@ -297,8 +297,8 @@ class Subkriteria extends CI_Controller
 
         // Get data dari form dengan array
         for ($i = 0; $i < $jum; $i++) {
-            array_push($pilihan, substr($this->input->post('elemen' . $i), -1)); // Untuk ambil nilai pilihan radio pertama atau kedua
-            array_push($nilai_elemen, $this->input->post('nilaiElemen' . $i));
+            array_push($pilihan, substr($this->input->post('nilaiElemen' . $i), -1)); // Untuk ambil nilai pilihan radio pertama atau kedua
+            array_push($nilai_elemen, substr($this->input->post('nilaiElemen' . $i), 0, 1));
         }
         // end 
 

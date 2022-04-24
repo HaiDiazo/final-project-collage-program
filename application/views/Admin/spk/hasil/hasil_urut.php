@@ -36,9 +36,9 @@
                                 <th scope="row" style="width: 30px;"><?= $no++; ?></th>
                                 <td class="text-left" style="width: 250px;"><?= $p['nama']; ?></td>
                                 <?php for ($j = 0; $j < count($column); $j++) { ?>
-                                    <td class="text-left" style="width: 250px;"><?= $score[$i][$j]; ?></td>
+                                    <td class="text-left" style="width: 250px;"><?= round($score[$i][$j], 4); ?></td>
                                 <?php } ?>
-                                <td class="text-left" style="width: 250px;"><?= $total[$i]['total']; ?></td>
+                                <td class="text-left" style="width: 250px;"><?= round($total[$i]['total'], 4); ?></td>
                             </tr>
                             <?php $i++; ?>
                         <?php endforeach; ?>
