@@ -89,4 +89,11 @@ class model_subkriteria extends CI_Model
         $this->db->where($where);
         $this->db->update($this->table2, $data);
     }
+
+    public function get_subkriteria_pekerjaan()
+    {
+        $this->db->join('kriteria', 'kriteria.id_kriteria = sub_kriteria.id_kriteria');
+        $this->db->where('nama_kriteria', 'pekerjaan');
+        return $this->db->get($this->table1);
+    }
 }

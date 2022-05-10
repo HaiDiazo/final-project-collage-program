@@ -45,7 +45,7 @@ class Subkriteria extends CI_Controller
             'navigasi' => $this->navigasi($title),
         ];
 
-        $kriteria = $this->model_kriteria->data_kriteria()->result_array();
+        $kriteria = $this->model_kriteria->data_kriteria_on()->result_array();
 
 
         $exist_or_not_priority = array();
@@ -54,7 +54,8 @@ class Subkriteria extends CI_Controller
             $exist_or_not_priority[$temp++] = $this->model_subkriteria->cek_data_perb($kr['id_kriteria']);
         }
 
-        $data['kriteria'] = $this->model_kriteria->data_kriteria()->result_array();
+
+        $data['kriteria'] = $kriteria;
         $data['exist_or_no'] = $exist_or_not_priority;
 
         $this->load->view("admin/layout_admin/layout_header", $data);

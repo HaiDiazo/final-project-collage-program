@@ -20,7 +20,7 @@
                                 $tgl_awal = date_create($p['tanggal_awal']);
                                 $tgl_akhir = date_create($p['tanggal_akhir']);
 
-                                echo date_format($tgl_awal, ('d/M/Y')) . ' - ' . date_format($tgl_akhir, 'd/M/Y');
+                                echo  $p['nama_periode'] . ' (' . date_format($tgl_awal, ('d M Y')) . ' - ' . date_format($tgl_akhir, 'd M Y') . ')';
                                 ?>
                             </a>
                         <?php endforeach; ?>
@@ -32,6 +32,14 @@
                         <input type="text" name="search" id="myInputSearch" class="input-field" placeholder="search...">
                     </div>
                 </div>
+            </div>
+
+            <div class="mt-3" style="font-size: 14px;">
+                Total Anggaran: Rp. <?= number_format($anggaran, 0, ',', '.'); ?>
+            </div>
+
+            <div class="mt-1" style="font-size: 14px;">
+                Sisa Anggaran: Rp. <?= number_format($sisa_anggaran, 0, ',', '.'); ?>
             </div>
 
             <hr>

@@ -6,7 +6,7 @@
                 <div class="mr-auto bd-highlight">
                     <span style="font-size: 13px;"> Simpan ke data penerima:</span> <br>
                     <a href="<?= base_url('admin/spk/hasil/scoring/') . $id_periode . "/" . 1; ?>" class="btn btn-primary"> <span style="font-size: 13px;">Simpan <i class="bi bi-arrow-right"></i></span></a>
-                    <a href="#" class="btn btn-success"> <span style="font-size: 13px;">Akurasi <i class="bi bi-arrow-right"></i></span></a>
+                    <!-- <a href="#" class="btn btn-success"> <span style="font-size: 13px;">Akurasi <i class="bi bi-arrow-right"></i></span></a> -->
                 </div>
                 <div class="">
                     <div class="input-icons">

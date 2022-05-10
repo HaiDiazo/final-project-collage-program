@@ -23,9 +23,9 @@
                     <label for="InputPekerjaan">Pekerjaan</label>
                     <select name="pekerjaan" class="form-control" style="width: 240px;" id="InputPekerjaan" onchange="nochoice(this.value)">
                         <option value="" selected disabled>Pilih Pekerjaan</option>
-                        <option value="Karyawan Swasta">Karyawan Swasta</option>
-                        <option value="Karyawan Tetap">Karyawan Tetap</option>
-                        <option value="Tambah Pekerjaan" class="font-italic font-weight-bold">-Tambah Pekerjaan-</option>
+                        <?php foreach ($pekerjaan as $p) : ?>
+                            <option value="<?= $p['nama_subkriteria']; ?>"><?= $p['nama_subkriteria']; ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
                 <div class="form-group">
@@ -70,17 +70,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    function nochoice(value) {
-        let InputText = document.getElementById('pekerjaan');
-        let LabelInput = document.getElementById('textInputPekerjaan');
-        if (value == 'Tambah Pekerjaan') {
-            InputText.style.display = 'block';
-            LabelInput.style.display = 'block';
-        } else {
-            InputText.style.display = 'none';
-            LabelInput.style.display = 'none';
-        }
-    }
-</script>

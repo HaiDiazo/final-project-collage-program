@@ -15,4 +15,9 @@ class model_ir extends CI_Model
         $this->db->where('ukuran_matrix', $n);
         return $this->db->get();
     }
+
+    public function data_ir()
+    {
+        return $this->db->get($this->table);
+    }
 }

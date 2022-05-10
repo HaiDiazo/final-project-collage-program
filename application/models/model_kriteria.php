@@ -14,6 +14,12 @@ class model_kriteria extends CI_Model
         return $this->db->get($this->table1);
     }
 
+    public function data_kriteria_on()
+    {
+        $this->db->where("toggle = " . 1);
+        return $this->db->get($this->table1);
+    }
+
     public function get_data_kriteria($id)
     {
         $this->db->where("id_kriteria = " . $id);
@@ -47,8 +53,14 @@ class model_kriteria extends CI_Model
         $this->db->update($this->table1, $data);
     }
 
+    public function update_toggle($data, $id)
+    {
+        $this->db->where('id_kriteria', $id);
+        $this->db->update($this->table1, $data);
+    }
+
     public function reset()
     {
-        $this->db->delete($this->table2);
+        $this->db->empty_table($this->table2);
     }
 }

@@ -79,4 +79,11 @@ class model_penerima extends CI_Model
         $this->db->where('id_penerima', $id);
         $this->db->update('tb_penerima', $data);
     }
+
+    public function total_anggaran_kumpul($id_periode)
+    {
+        $query = $this->db->query("SELECT SUM(dana) as total_dana FROM tb_penerima INNER JOIN tb_penduduk USING (id_penduduk) INNER JOIN tb_periode USING (id_periode) WHERE id_periode = $id_periode AND tb_penerima.status = 'Diterima'");
+
+        return $query->row_array();
+    }
 }

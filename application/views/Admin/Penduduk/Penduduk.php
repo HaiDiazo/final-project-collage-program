@@ -19,7 +19,7 @@
                                 $tgl_awal = date_create($p['tanggal_awal']);
                                 $tgl_akhir = date_create($p['tanggal_akhir']);
 
-                                echo date_format($tgl_awal, ('d/M/Y')) . ' - ' . date_format($tgl_akhir, 'd/M/Y');
+                                echo $p['nama_periode'] . " (" . date_format($tgl_awal, ('d M Y')) . ' - ' . date_format($tgl_akhir, 'd M Y') . ")";
                                 ?>
                             </a>
                         <?php endforeach; ?>

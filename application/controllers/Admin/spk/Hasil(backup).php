@@ -202,8 +202,6 @@ class Hasil extends CI_Controller
         foreach ($data_penduduk->result_array() as $dp) {
             for ($i = 0; $i < count($column); $i++) {
 
-                $j = 0;
-
                 foreach ($kr_bobot as $kr) {
                     if ($column2[$i] == $kr['nama_kriteria']) {
                         // input tiap kolom array
@@ -225,12 +223,12 @@ class Hasil extends CI_Controller
                                     // $operator = $pieces[0] . " <= " . $dp[$column[$i]] . " && " . $dp[$column[$i]] . " <= " . $pieces[2];
 
                                     if ($pieces[0] <= $dp[$column[$i]] && $dp[$column[$i]] <= $pieces[2]) {
-                                        $score[$no_p][$j] = $kr['bobot'] * $sbb['bobot'];
+                                        $score[$no_p][$i] = $kr['bobot'] * $sbb['bobot'];
                                     }
                                 } else {
                                     // $operator = $pieces[2] . " <= " . $dp[$column[$i]];
                                     if ($pieces[2] <= $dp[$column[$i]]) {
-                                        $score[$no_p][$j] = $kr['bobot'] * $sbb['bobot'];
+                                        $score[$no_p][$i] = $kr['bobot'] * $sbb['bobot'];
                                     }
                                 }
 
@@ -239,12 +237,11 @@ class Hasil extends CI_Controller
                                 // }
                             } else {
                                 if ($dp[$column[$i]] == $sbb['nama_subkriteria']) {
-                                    $score[$no_p][$j] = $kr['bobot'] * $sbb['bobot'];
+                                    $score[$no_p][$i] = $kr['bobot'] * $sbb['bobot'];
                                 }
                             }
                         }
                     }
-                    $j++;
                 }
             }
             $no_p++;
@@ -273,7 +270,7 @@ class Hasil extends CI_Controller
         return $total;
     }
 
-    public function implementWBobot($id_periode, $accept = null, $export = null)
+    public function implementWBobot($id_periode, $accept = null)
     {
         $nama_user = $this->session->userdata('nama');
         $title = 'Proses Subtitusi Bobot AHP';
@@ -288,7 +285,10 @@ class Hasil extends CI_Controller
         $data_penduduk = $this->model_penduduk->penduduk_periode($id_periode);
 
         // get data kriteria bobot
-        $kr_bobot = $this->model_kriteria->data_kriteria_on()->result_array();
+        $kr_bobot = $this->model_kriteria->data_kriteria()->result_array();
+
+        // get data subkriteria bobot
+        // $subkr_bobot = $this->model_subkriteria->data_subkriteria(3)->result_array();
 
         // get nama kolom tabel penduduk
         $column = array();
@@ -301,21 +301,21 @@ class Hasil extends CI_Controller
             }
         }
         $column2[5] = "status_penduduk";
-        $nm_column[10]['Field'] = "status_penduduk";
 
+        // End get nama kolom
+        // print_r($column2);
 
-        // buat kolom untuk ditampilin di view
-        $column_tb = array();
-        for ($i = 4; $i < count($nm_column); $i++) {
-            if ($i != 7 && $i != 11) {
-                foreach ($kr_bobot as $kr) {
-                    if ($nm_column[$i]['Field'] == $kr['nama_kriteria']) {
-                        array_push($column_tb, $nm_column[$i]['Field']);
-                    }
-                }
-            }
-        }
+        // echo is_numeric($subkr_bobot[5]['nama_subkriteria']);
+        // $pieces = explode(" ", $subkr_bobot[2]['nama_subkriteria']);
 
+        // echo "<br>";
+
+        // echo count($pieces);
+        // if ($pieces[1] == "-") {
+        //     echo $pieces[1];
+        // } else {
+        //     echo "Bukan";
+        // }
 
         // Proses subtitusi 
         $score = $this->subtitusiBobot($column, $data_penduduk, $kr_bobot);
@@ -325,6 +325,9 @@ class Hasil extends CI_Controller
         $total = $this->jumTotalBobot($score);
         // End proses total
 
+        // print_r($score);
+        // echo "<br><br><br>";
+        // print_r($total);
 
         // Insert ke tabel alternatif
         if ($accept != null && $accept == 1) {
@@ -352,68 +355,11 @@ class Hasil extends CI_Controller
             redirect('admin/spk/hasil/scoring/' . $id_periode);
         }
 
-        // print_r($score[0]);
-
-        // Export to Excel 
-        if ($export != null && $export == 1) {
-            $this->load->library("excel");
-            $object = new PHPExcel();
-
-            $object->setActiveSheetIndex(0);
-            $object->getActiveSheet()->setCellValue('A1', 'No');
-            $object->getActiveSheet()->setCellValue('B1', 'Nama');
-            $object->getActiveSheet()->setCellValue('C1', 'Usia');
-            $object->getActiveSheet()->setCellValue('D1', 'Tanggungan');
-            $object->getActiveSheet()->setCellValue('E1', 'Pekerjaan');
-            $object->getActiveSheet()->setCellValue('F1', 'Penghasilan');
-            $object->getActiveSheet()->setCellValue('G1', 'Terdampak Covid');
-            $object->getActiveSheet()->setCellValue('H1', 'Status Penduduk');
-            $object->getActiveSheet()->setCellValue('I1', 'Total');
-
-            $alfabet = array('C', 'D', 'E', 'F', 'G', 'H');
-
-            $excel_row = 2;
-            $no = 1;
-            $i = 0;
-
-            foreach ($data_penduduk->result_array() as $val) {
-                $object->getActiveSheet()->setCellValue('A' . $excel_row, $no);
-                $object->getActiveSheet()->setCellValue('B' . $excel_row, $val['nama']);
-
-                for ($j = 0; $j < count($column_tb); $j++) {
-                    $object->getActiveSheet()->setCellValue($alfabet[$j] . $excel_row, $score[$i][$j]);
-                }
-
-                $object->getActiveSheet()->setCellValue('I' . $excel_row, $total[$i]['total']);
-
-
-
-                $i++;
-                $no++;
-                $excel_row++;
-            }
-
-
-            $filename = "Data_Penduduk" . '.xlsx';
-
-            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            header('Content-Disposition: attachment; filename="' . $filename . '"');
-            header('Cache-Control: max-age=0');
-
-
-
-            $writer = PHPExcel_IOFactory::createWriter($object, 'Excel2007');
-            $writer->save('php://output');
-
-            exit;
-        }
-
         $data['id_periode'] = $id_periode;
         $data['penduduk'] = $data_penduduk->result_array();
-        $data['column'] = $column_tb;
+        $data['column'] = $column2;
         $data['score'] = $score;
         $data['total'] = $total;
-
 
         // // print_r($total);
 

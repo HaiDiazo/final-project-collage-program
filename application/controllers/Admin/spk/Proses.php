@@ -204,7 +204,7 @@ class Proses extends CI_Controller
             'navigasi' => $this->navigasi($title),
         ];
 
-        $kriteria = $this->model_kriteria->data_kriteria()->result_array();
+        $kriteria = $this->model_kriteria->data_kriteria_on()->result_array();
         $cek_bobot = array();
         $i = 0;
         foreach ($kriteria as $kr) {
@@ -230,7 +230,7 @@ class Proses extends CI_Controller
         ];
 
         // Ambil data dari model
-        $kriteria = $this->model_kriteria->data_kriteria()->result_array();
+        $kriteria = $this->model_kriteria->data_kriteria_on()->result_array();
         $nilai_perb = $this->model_kriteria->get_perbandingan_kriteria()->result_array();
         // end
 
@@ -309,6 +309,13 @@ class Proses extends CI_Controller
         }
         // end tombol
 
+        /** 
+         * ===============================
+         * Inisialisasi Variabel
+         * ===============================
+         */
+
+
         // Matrik comparison
         $data['kriteria_arr'] = $kriteria_arr;
         $data['matrik'] = $matrik_comp['matrik'];
@@ -328,6 +335,7 @@ class Proses extends CI_Controller
         // End matrix penjumlahan tiap baris
 
         // Rasio Konsistensi
+        $data['data_ir'] = $this->model_ir->data_ir()->result_array();
         $data['nilai'] = $rasio_konsistensi['nilai'];
         $data['jumlah_nilai'] = $rasio_konsistensi['jumlah_nilai'];
         $data['eigen'] = $eigen;
@@ -445,6 +453,7 @@ class Proses extends CI_Controller
         $data['id_krit'] = $id_krit;
         // End Tambahan
         // Matrik comparison
+        $data['data_ir'] = $this->model_ir->data_ir()->result_array();
         $data['subkrit_arr'] = $subkrit_arr;
         $data['matrik'] = $matrik_comp['matrik'];
         $data['total'] = $matrik_comp['total'];

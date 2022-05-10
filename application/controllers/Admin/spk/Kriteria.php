@@ -37,7 +37,7 @@ class Kriteria extends CI_Controller
     public function index()
     {
         $nama_user = $this->session->userdata('nama');
-        $title = 'Konfigurasi Kriteria';
+        $title = 'Perbandigan Kriteria';
         $data = [
             'spk' => 'kriteria',
             'title' => $title,
@@ -45,7 +45,7 @@ class Kriteria extends CI_Controller
             'navigasi' => $this->navigasi($title),
         ];
 
-        $kriteria = $this->model_kriteria->data_kriteria();
+        $kriteria = $this->model_kriteria->data_kriteria_on();
         $perbandingan = $this->model_kriteria->get_perbandingan_kriteria()->result_array();
 
         // **Mencari jumlah pairwase comparasion
@@ -74,6 +74,7 @@ class Kriteria extends CI_Controller
         // db perbandingan kriteria
         $data['db_set_radio'] = $set_radio;
         $data['nilai_perb'] = $nilai_perb;
+
         // db kriteria
         $data['id_kriteria'] = $id_kriteria_arr;
         $data['kriteria_arr'] = $kriteria_arr;
@@ -99,7 +100,6 @@ class Kriteria extends CI_Controller
             array_push($nilai_elemen, substr($this->input->post('nilaiElemen' . $i), 0, 1));
         }
         // end         
-
 
         //** input into database
 
@@ -145,7 +145,81 @@ class Kriteria extends CI_Controller
         //** end input database
     }
 
+    public function config()
+    {
+        $nama_user = $this->session->userdata('nama');
+        $title = 'Konfigurasi Kriteria';
+        $data = [
+            'spk' => 'kriteria',
+            'title' => $title,
+            'nama_user' => $nama_user,
+            'navigasi' => $this->navigasi('<a href="' . base_url('admin/spk/kriteria') . '">Perbandingan Kriteria</a> / ' . $title),
+        ];
+
+        $data['kriteria'] = $this->model_kriteria->data_kriteria()->result_array();
+
+
+
+        $this->load->view("admin/layout_admin/layout_header", $data);
+        $this->load->view("admin/spk/kriteria/config_kriteria", $data);
+        $this->load->view("admin/layout_admin/layout_footer");
+    }
+
+    public function config_input()
+    {
+        $kriteria = $this->model_kriteria->data_kriteria()->result_array();
+        $toggle = $this->input->post('toggle');
+
+        // untuk setting toggle 
+        if (!empty($toggle)) {
+            foreach ($kriteria as $kr) {
+                $acc = 0;
+                $updt_tggl = array();
+
+                foreach ($toggle as $tg) {
+                    if ($kr['id_kriteria'] == $tg) {
+                        $acc = 1;
+                    }
+                }
+
+                if ($acc == 1) {
+                    $updt_tggl = array(
+                        'toggle' => 1
+                    );
+                } else {
+                    $updt_tggl = array(
+                        'toggle' => 0
+                    );
+                }
+
+                $this->model_kriteria->update_toggle($updt_tggl, $kr['id_kriteria']);
+            }
+        } else {
+            foreach ($kriteria as $kr) {
+                $updt_tggl = array(
+                    'toggle' => 0
+                );
+                $this->model_kriteria->update_toggle($updt_tggl, $kr['id_kriteria']);
+            }
+        }
+        // End untuk setting toggle
+
+        // Hapus bobot tiap kriteria
+        foreach ($kriteria as $kr) {
+            $data = array(
+                'bobot' => 0
+            );
+
+            $this->model_kriteria->update_bobot_kriteria($kr['nama_kriteria'], $data);
+        }
+        // end hapus bobot tiap kriteria
+
+        $this->reset_perbandingan();
+        redirect('admin/spk/kriteria');
+    }
+
     public function reset_perbandingan()
     {
+        $this->model_kriteria->reset();
     }
 }

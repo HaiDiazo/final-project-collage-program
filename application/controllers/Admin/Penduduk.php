@@ -19,6 +19,21 @@ class Penduduk extends CI_Controller
         return $navigasi;
     }
 
+    private function pick_three_word($val)
+    {
+        $str = explode(" ", $val);
+        $name_str = "";
+
+        if (count($str) > 3) {
+            $name_str = $str[0] . " " . $str[1] . " " . $str[2] . "...";
+        } else {
+            $name_str = $val;
+        }
+
+
+        return $name_str;
+    }
+
     public function index()
     {
         $username = $this->session->userdata('username');
@@ -29,12 +44,13 @@ class Penduduk extends CI_Controller
         $data_periode = $this->model_periode->get_new_periode()->row_array();
 
         // Susun Tanggal
+        $periode_name = $this->pick_three_word($data_periode['nama_periode']);
         $tanggal_awal = date_create($data_periode['tanggal_awal']);
         $tanggal_akhir = date_create($data_periode['tanggal_akhir']);
 
 
         if ($cek_periode > 0) {
-            $title = 'Data Penduduk Periode (' . date_format($tanggal_awal, "d M Y") . ' - ' . date_format($tanggal_akhir, "d M Y") . ')';
+            $title = 'Data Penduduk ' . $periode_name . ' (' . date_format($tanggal_awal, "d M Y") . ' - ' . date_format($tanggal_akhir, "d M Y") . ')';
             $data['title'] = $title;
             $data['navigasi'] = $this->navigasi($title);
         } else {
@@ -46,7 +62,26 @@ class Penduduk extends CI_Controller
         $data['penduduk'] = $this->model_penduduk->penduduk_periode($data_periode['id_periode'])->result_array();
 
         // Buat dropdown
-        $data['periode'] = $this->model_periode->tahun_periode()->result_array();
+        $periode_all = $this->model_periode->tahun_periode()->result_array();
+
+
+        // Buat Dropdown - Ambil 3 kata didepan
+        $name_periode = array();
+
+        for ($i = 0; $i < count($periode_all); $i++) {
+
+            /** explode beberapa bagian string, jika lebih dari 3 terdapat "..." */
+            $name_str = $this->pick_three_word($periode_all[$i]['nama_periode']);
+
+            // Insert into array
+            $nama_periode[$i] = array(
+                'id_periode' => $periode_all[$i]['id_periode'],
+                'tanggal_awal' => $periode_all[$i]['tanggal_awal'],
+                'tanggal_akhir' => $periode_all[$i]['tanggal_akhir'],
+                'nama_periode' => $name_str
+            );
+        }
+        $data['periode'] = $nama_periode;
         // =============
 
         // Buat tambah data / import
@@ -74,19 +109,40 @@ class Penduduk extends CI_Controller
         $data['penduduk'] = $this->model_penduduk->penduduk_periode($id_periode)->result_array();
 
 
-        // Buat Dropdown 
-        $data['periode'] = $this->model_periode->tahun_periode()->result_array();
+        // Buat dropdown
+        $periode_all = $this->model_periode->tahun_periode()->result_array();
+
+
+        // Buat Dropdown - Ambil 3 kata didepan
+        $name_periode = array();
+
+        for ($i = 0; $i < count($periode_all); $i++) {
+
+            /** explode beberapa bagian string, jika lebih dari 3 terdapat "..." */
+            $name_str = $this->pick_three_word($periode_all[$i]['nama_periode']);
+
+            // Insert into array
+            $nama_periode[$i] = array(
+                'id_periode' => $periode_all[$i]['id_periode'],
+                'tanggal_awal' => $periode_all[$i]['tanggal_awal'],
+                'tanggal_akhir' => $periode_all[$i]['tanggal_akhir'],
+                'nama_periode' => $name_str
+            );
+        }
+        $data['periode'] = $nama_periode;
         // =============
+
 
         $where = array('id_periode' => $id_periode);
         $data_periode = $this->model_periode->get_periode($where)->row_array();
 
         // Susun Tanggal
+        $periode_name = $this->pick_three_word($data_periode['nama_periode']);
         $tanggal_awal = date_create($data_periode['tanggal_awal']);
         $tanggal_akhir = date_create($data_periode['tanggal_akhir']);
 
         if ($cek_periode > 0) {
-            $title = 'Data Penduduk Periode (' . date_format($tanggal_awal, "d M Y") . ' - ' . date_format($tanggal_akhir, "d M Y") . ')';
+            $title = 'Data Penduduk ' . $periode_name . ' (' . date_format($tanggal_awal, "d M Y") . ' - ' . date_format($tanggal_akhir, "d M Y") . ')';
             $data['title'] = $title;
             $data['navigasi'] = $this->navigasi($title);
         } else {
@@ -134,6 +190,8 @@ class Penduduk extends CI_Controller
 
         $data['navigasi'] = $this->navigasi($title_all);
         $data['id_periode'] = $id_periode;
+        $data['pekerjaan'] = $this->model_subkriteria->get_subkriteria_pekerjaan()->result_array();
+
 
         $this->load->view("admin/layout_admin/layout_header", $data);
         $this->load->view("admin/Penduduk/tambah_penduduk", $data);
@@ -277,6 +335,7 @@ class Penduduk extends CI_Controller
         $where = array('id_penduduk' => $id);
         $data['navigasi'] = $this->navigasi($title);
         $data['penduduk'] = $this->model_penduduk->get_penduduk($where)->row_array();
+        $data['pekerjaan'] = $this->model_subkriteria->get_subkriteria_pekerjaan()->result_array();
 
         $this->load->view("admin/layout_admin/layout_header", $data);
         $this->load->view("admin/Penduduk/edit_penduduk", $data);

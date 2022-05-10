@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="<?= base_url('assets/style/style1.css'); ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/bootstrap/css/bootstrap.min.css'); ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/bootstrap2/css/bootstrap.min.css'); ?>">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a81368914c.js"></script>
     <style>
@@ -58,8 +58,8 @@
     </div>
 
     <script type="text/javascript" src="<?= base_url('assets/js/main.js'); ?>"></script>
-    <script src="<?= base_url('assets/bootstrap/js/jquery.min.js'); ?>"></script>
-    <script src="<?= base_url('assets/bootstrap/js/bootstrap.min.js'); ?>"></script>
+    <script src="<?= base_url('assets/bootstrap2/js/jquery.min.js'); ?>"></script>
+    <script src="<?= base_url('assets/bootstrap2/js/bootstrap.min.js'); ?>"></script>
 </body>
 
 </html>

@@ -23,13 +23,9 @@
                     <label for="InputPekerjaan">Pekerjaan</label>
                     <select name="pekerjaan" class="form-control" style="width: 240px;" id="InputPekerjaan" onchange="nochoice(this.value)">
                         <option value="" selected disabled>Pilih Pekerjaan</option>
-                        <option value="Karyawan Swasta" <?php if ($penduduk['pekerjaan'] == "Karyawan Swasta") {
-                                                            echo "selected";
-                                                        } ?>>Karyawan Swasta</option>
-                        <option value="Karyawan Tetap" <?php if ($penduduk['pekerjaan'] == "Karyawan Tetap") {
-                                                            echo "selected";
-                                                        } ?>>Karyawan Tetap</option>
-                        <option value="Tambah Pekerjaan" class="font-italic font-weight-bold">-Tambah Pekerjaan-</option>
+                        <?php foreach ($pekerjaan as $p) : ?>
+                            <option value="<?= $p['nama_subkriteria']; ?>" <?php if ($penduduk['pekerjaan'] == $p['nama_subkriteria']) echo "selected" ?>><?= $p['nama_subkriteria']; ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
                 <div class="form-group">

@@ -1,6 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class Hasil extends CI_Controller
 {
     function __construct()
@@ -360,52 +363,44 @@ class Hasil extends CI_Controller
             $object = new PHPExcel();
 
             $object->setActiveSheetIndex(0);
-            $object->getActiveSheet()->setCellValue('A1', 'No');
-            $object->getActiveSheet()->setCellValue('B1', 'Nama');
-            $object->getActiveSheet()->setCellValue('C1', 'Usia');
-            $object->getActiveSheet()->setCellValue('D1', 'Tanggungan');
-            $object->getActiveSheet()->setCellValue('E1', 'Pekerjaan');
-            $object->getActiveSheet()->setCellValue('F1', 'Penghasilan');
-            $object->getActiveSheet()->setCellValue('G1', 'Terdampak Covid');
-            $object->getActiveSheet()->setCellValue('H1', 'Status Penduduk');
-            $object->getActiveSheet()->setCellValue('I1', 'Total');
 
-            $alfabet = array('C', 'D', 'E', 'F', 'G', 'H');
+            $table_column = array("No", "Nama", "Usia", "Tanggungan", "Pekerjaan", "Penghasilan", "Terdampak Covid", "Status Penduduk", "Total");
+
+            $column = 0;
+
+            foreach ($table_column as $field) {
+                $object->getActiveSheet()->setCellValueByColumnAndRow($column, 1, $field);
+
+                $column++;
+            }
+
+            $column_numb = array(3, 4, 5, 6, 7, 8, 9);
 
             $excel_row = 2;
             $no = 1;
             $i = 0;
 
-            foreach ($data_penduduk->result_array() as $val) {
-                $object->getActiveSheet()->setCellValue('A' . $excel_row, $no);
-                $object->getActiveSheet()->setCellValue('B' . $excel_row, $val['nama']);
+            // foreach ($data_penduduk->result_array() as $val) {
 
-                for ($j = 0; $j < count($column_tb); $j++) {
-                    $object->getActiveSheet()->setCellValue($alfabet[$j] . $excel_row, $score[$i][$j]);
-                }
+            //     $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, $no);
+            //     $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, $val['nama']);
 
-                $object->getActiveSheet()->setCellValue('I' . $excel_row, $total[$i]['total']);
+            //     // for ($j = 0; $j < count($column_tb); $j++) {
+            //     //     $object->getActiveSheet()->setCellValueByColumnAndRow($column_numb[$j] . $excel_row, $score[$i][$j]);
+            //     // }
 
+            //     // $object->getActiveSheet()->setCellValueByColumnAndRow(10, $excel_row, $total[$i]['total']);
 
+            //     $i++;
+            //     $no++;
+            //     $excel_row++;
+            // }
 
-                $i++;
-                $no++;
-                $excel_row++;
-            }
+            $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
 
-
-            $filename = "Data_Penduduk" . '.xlsx';
-
-            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            header('Content-Disposition: attachment; filename="' . $filename . '"');
-            header('Cache-Control: max-age=0');
-
-
-
-            $writer = PHPExcel_IOFactory::createWriter($object, 'Excel2007');
-            $writer->save('php://output');
-
-            exit;
+            header("Content-Type: application/vnd.ms-excel");
+            header('Content-Disposition: attachment;filename="Test.xls"');
+            $object_writer->save('php://output');
         }
 
         $data['id_periode'] = $id_periode;

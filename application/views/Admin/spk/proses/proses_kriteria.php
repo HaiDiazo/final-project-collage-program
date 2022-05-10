@@ -17,12 +17,9 @@
                     </tr>
                     <tr style="background-color: #F9FAFB; font-size: 13px;" class="text-center">
                         <th style="width: 100px;"></th>
-                        <th>Banyak<br>Tanggungan</th>
-                        <th>Jenis<br>Pekerjaan</th>
-                        <th class="align-middle">Penghasilan</th>
-                        <th class="align-middle">Usia</th>
-                        <th class="align-middle">Terdampak</th>
-                        <th>Status<br>Penduduk</th>
+                        <?php foreach ($kriteria_arr as $kr) : ?>
+                            <th class="align-middle text-capitalize"><?= $kr; ?></th>
+                        <?php endforeach; ?>
                     </tr>
                 </thead>
                 <tbody style="font-size: 13px;">
@@ -55,14 +52,11 @@
                     </tr>
                     <tr style="background-color: #F9FAFB; font-size: 13px;" class="text-center">
                         <th style="width: 100px;"></th>
-                        <th>Banyak<br>Tanggungan</th>
-                        <th>Jenis<br>Pekerjaan</th>
-                        <th class="align-middle">Penghasilan</th>
-                        <th class="align-middle">Usia</th>
-                        <th class="align-middle">Terdampak</th>
-                        <th>Status<br>Penduduk</th>
+                        <?php foreach ($kriteria_arr as $kr) : ?>
+                            <th class="align-middle text-capitalize"><?= $kr; ?></th>
+                        <?php endforeach; ?>
                         <th>Jumlah</th>
-                        <th>Prioritas</th>
+                        <th>Bobot</th>
                     </tr>
                 </thead>
                 <tbody style="font-size: 13px;">
@@ -126,12 +120,9 @@
                             </tr>
                             <tr style="background-color: #F9FAFB; font-size: 13px;" class="text-center">
                                 <th style="width: 100px;"></th>
-                                <th>Banyak<br>Tanggungan</th>
-                                <th>Jenis<br>Pekerjaan</th>
-                                <th class="align-middle">Penghasilan</th>
-                                <th class="align-middle">Usia</th>
-                                <th class="align-middle">Terdampak</th>
-                                <th>Status<br>Penduduk</th>
+                                <?php foreach ($kriteria_arr as $kr) : ?>
+                                    <th class="align-middle text-capitalize"><?= $kr; ?></th>
+                                <?php endforeach; ?>
                                 <th>Jumlah</th>
                             </tr>
                         </thead>
@@ -154,9 +145,31 @@
                 <!-- End matrix penjumlahan tiap baris -->
             </div>
 
-            <!-- Rasio Konsistensi -->
+            <!-- Indeks Random Konsistensi -->
             <div class="d-flex flex-row">
                 <div class="">
+                    <table class="table table-bordered mt-4" style="max-width: 20rem;">
+                        <thead class="align-middle">
+                            <tr>
+                                <th colspan="4" class="text-center">Indeks Random Konsistensi</th>
+                            </tr>
+                            <tr style="background-color: #F9FAFB; font-size: 13px;" class="text-center">
+                                <th>Ukuran Matriks</th>
+                                <th>Nilai IR</th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size: 13px;">
+                            <?php foreach ($data_ir as $dr) : ?>
+                                <tr>
+                                    <td><?= $dr['ukuran_matrix']; ?></td>
+                                    <td><?= $dr['nilai_ir']; ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="ml-3">
                     <table class="table table-bordered mt-4" style="max-width: 20rem;">
                         <thead class="align-middle">
                             <tr>
@@ -199,7 +212,7 @@
                     <table class="table table-bordered mt-4" style="max-width: 15rem;">
                         <thead class="align-middle">
                             <tr>
-                                <th colspan="2" class="text-center">Rasio Consistensi</th>
+                                <th colspan="2" class="text-center">Rasio Konsistensi</th>
                             </tr>
                             <tr style="background-color: #F9FAFB; font-size: 13px;" class="text-center">
                                 <th style="width: 100px;">#</th>

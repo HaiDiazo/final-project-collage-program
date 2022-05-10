@@ -18,6 +18,21 @@ class Penerima extends CI_Controller
         return $navigasi;
     }
 
+    private function pick_three_word($val)
+    {
+        $str = explode(" ", $val);
+        $name_str = "";
+
+        if (count($str) > 3) {
+            $name_str = $str[0] . " " . $str[1] . " " . $str[2] . "...";
+        } else {
+            $name_str = $val;
+        }
+
+
+        return $name_str;
+    }
+
     public function index()
     {
         $username = $this->session->userdata('username');
@@ -32,15 +47,22 @@ class Penerima extends CI_Controller
         $where = array('id_periode' => $data_periode['id_periode']);
         $data_periode = $this->model_periode->get_periode($where)->row_array();
 
+
+        // Sisa anggaran
+        $total_dana = $this->model_penerima->total_anggaran_kumpul($data_periode['id_periode']);
+        $sisa_anggaran = $data_periode['anggaran'] - $total_dana['total_dana'];
+
+
         // Susun Tanggal
+        $periode_name = $this->pick_three_word($data_periode['nama_periode']);
         $tanggal_awal = date_create($data_periode['tanggal_awal']);
         $tanggal_akhir = date_create($data_periode['tanggal_akhir']);
 
         if ($cek_periode > 0) {
-            $title = 'Periode (' . date_format($tanggal_awal, "d M Y") . ' - ' . date_format($tanggal_akhir, "d M Y") . ')';
+            $title = $periode_name . ' (' . date_format($tanggal_awal, "d M Y") . ' - ' . date_format($tanggal_akhir, "d M Y") . ')';
             $title_all = 'Data Penerima Bantuan ';
         } else {
-            $title = 'Periode (Data Periode Belum Ada)';
+            $title = '(Data Periode Belum Ada)';
             $title_all = 'Data Penerima Bantuan ';
         }
 
@@ -54,9 +76,33 @@ class Penerima extends CI_Controller
         // $data['penerima'] = $this->model_penerima->penduduk_wstatus()->result_array();
 
         // Buat dropdown
-        $data['periode'] = $this->model_periode->tahun_periode()->result_array();
+        $periode_all = $this->model_periode->tahun_periode()->result_array();
+
+
+        // Buat Dropdown - Ambil 3 kata didepan
+        $name_periode = array();
+
+        for ($i = 0; $i < count($periode_all); $i++) {
+
+            /** explode beberapa bagian string, jika lebih dari 3 terdapat "..." */
+            $name_str = $this->pick_three_word($periode_all[$i]['nama_periode']);
+
+            // Insert into array
+            $nama_periode[$i] = array(
+                'id_periode' => $periode_all[$i]['id_periode'],
+                'tanggal_awal' => $periode_all[$i]['tanggal_awal'],
+                'tanggal_akhir' => $periode_all[$i]['tanggal_akhir'],
+                'nama_periode' => $name_str
+            );
+        }
+        $data['periode'] = $nama_periode;
         // =============
+
+
         $data['penerima'] = $this->model_penerima->penduduk_status_periode($data_periode['id_periode'])->result_array();
+
+        $data['anggaran'] = $data_periode['anggaran'];
+        $data['sisa_anggaran'] = $sisa_anggaran;
 
         $data['id_periode'] = $data_periode['id_periode'];
 
@@ -81,15 +127,20 @@ class Penerima extends CI_Controller
         $where = array('id_periode' => $id_periode);
         $data_periode = $this->model_periode->get_periode($where)->row_array();
 
+        // Sisa anggaran
+        $total_dana = $this->model_penerima->total_anggaran_kumpul($data_periode['id_periode']);
+        $sisa_anggaran = $data_periode['anggaran'] - $total_dana['total_dana'];
+
         // Susun Tanggal
+        $periode_name = $this->pick_three_word($data_periode['nama_periode']);
         $tanggal_awal = date_create($data_periode['tanggal_awal']);
         $tanggal_akhir = date_create($data_periode['tanggal_akhir']);
 
         if ($cek_periode > 0) {
-            $title = 'Periode (' . date_format($tanggal_awal, "d M Y") . ' - ' . date_format($tanggal_akhir, "d M Y") . ')';
+            $title = $periode_name . ' (' . date_format($tanggal_awal, "d M Y") . ' - ' . date_format($tanggal_akhir, "d M Y") . ')';
             $title_all = 'Data Penerima Bantuan ';
         } else {
-            $title = 'Periode (Data Periode Belum Ada)';
+            $title = '(Data Periode Belum Ada)';
             $title_all = 'Data Penerima Bantuan ';
         }
 
@@ -103,8 +154,31 @@ class Penerima extends CI_Controller
         $data['penerima'] = $this->model_penerima->penduduk_status_periode($data_periode['id_periode'])->result_array();
 
         // Buat dropdown
-        $data['periode'] = $this->model_periode->tahun_periode()->result_array();
+        $periode_all = $this->model_periode->tahun_periode()->result_array();
+
+
+        // Buat Dropdown - Ambil 3 kata didepan
+        $name_periode = array();
+
+        for ($i = 0; $i < count($periode_all); $i++) {
+
+            /** explode beberapa bagian string, jika lebih dari 3 terdapat "..." */
+            $name_str = $this->pick_three_word($periode_all[$i]['nama_periode']);
+
+            // Insert into array
+            $nama_periode[$i] = array(
+                'id_periode' => $periode_all[$i]['id_periode'],
+                'tanggal_awal' => $periode_all[$i]['tanggal_awal'],
+                'tanggal_akhir' => $periode_all[$i]['tanggal_akhir'],
+                'nama_periode' => $name_str
+            );
+        }
+        $data['periode'] = $nama_periode;
         // =============
+
+        $data['anggaran'] = $data_periode['anggaran'];
+        $data['sisa_anggaran'] = $sisa_anggaran;
+
         $data['id_periode'] = $data_periode['id_periode'];
 
         // Cek periode

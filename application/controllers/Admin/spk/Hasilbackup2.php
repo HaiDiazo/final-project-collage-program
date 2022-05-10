@@ -1,6 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class Hasil extends CI_Controller
 {
     function __construct()
@@ -356,56 +359,44 @@ class Hasil extends CI_Controller
 
         // Export to Excel 
         if ($export != null && $export == 1) {
-            $this->load->library("excel");
-            $object = new PHPExcel();
+            $filename = 'text.xlsx';
+            $spreadsheet = new Spreadsheet();
 
-            $object->setActiveSheetIndex(0);
-            $object->getActiveSheet()->setCellValue('A1', 'No');
-            $object->getActiveSheet()->setCellValue('B1', 'Nama');
-            $object->getActiveSheet()->setCellValue('C1', 'Usia');
-            $object->getActiveSheet()->setCellValue('D1', 'Tanggungan');
-            $object->getActiveSheet()->setCellValue('E1', 'Pekerjaan');
-            $object->getActiveSheet()->setCellValue('F1', 'Penghasilan');
-            $object->getActiveSheet()->setCellValue('G1', 'Terdampak Covid');
-            $object->getActiveSheet()->setCellValue('H1', 'Status Penduduk');
-            $object->getActiveSheet()->setCellValue('I1', 'Total');
 
-            $alfabet = array('C', 'D', 'E', 'F', 'G', 'H');
+            $sheet = $spreadsheet->getActiveSheet();
+            $sheet->setCellValue('A1', 'No');
+            $sheet->setCellValue('B1', 'Nama');
+            $sheet->setCellValue('C1', 'Usia');
+            $sheet->setCellValue('D1', 'Tanggungan');
+            $sheet->setCellValue('E1', 'Pekerjaan');
+            $sheet->setCellValue('F1', 'Penghasilan');
+            $sheet->setCellValue('G1', 'Terdampak Covid');
+            $sheet->setCellValue('H1', 'Status Penduduk');
+            $sheet->setCellValue('I1', 'Total');
 
-            $excel_row = 2;
+
+            $alfabet = array('C', 'D', 'E', 'F', 'G', 'H', 'I');
+            $rows = 2;
             $no = 1;
             $i = 0;
+            // foreach ($data_penduduk->result_array() as $val) {
 
-            foreach ($data_penduduk->result_array() as $val) {
-                $object->getActiveSheet()->setCellValue('A' . $excel_row, $no);
-                $object->getActiveSheet()->setCellValue('B' . $excel_row, $val['nama']);
+            //     $sheet->setCellValue('A' . $rows, $no);
+            //     $sheet->setCellValue('B' . $rows, $val['nama']);
+            //     for ($j = 0; $j < count($column_tb); $j++) {
+            //         $sheet->setCellValue($alfabet[$j] . $rows, $score[$i][$j]);
+            //     }
+            //     $sheet->setCellValue('I' . $rows, $total[$i]['total']);
 
-                for ($j = 0; $j < count($column_tb); $j++) {
-                    $object->getActiveSheet()->setCellValue($alfabet[$j] . $excel_row, $score[$i][$j]);
-                }
+            //     $i++;
+            //     $no++;
+            //     $rows++;
+            // }
 
-                $object->getActiveSheet()->setCellValue('I' . $excel_row, $total[$i]['total']);
-
-
-
-                $i++;
-                $no++;
-                $excel_row++;
-            }
-
-
-            $filename = "Data_Penduduk" . '.xlsx';
-
-            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            header('Content-Disposition: attachment; filename="' . $filename . '"');
-            header('Cache-Control: max-age=0');
-
-
-
-            $writer = PHPExcel_IOFactory::createWriter($object, 'Excel2007');
-            $writer->save('php://output');
-
-            exit;
+            header("Content-Type: application/vnd.ms-excel");
+            $writer = new Xlsx($spreadsheet);
+            $writer->save($filename);
+            // redirect(base_url() . "/upload/" . $filename);
         }
 
         $data['id_periode'] = $id_periode;

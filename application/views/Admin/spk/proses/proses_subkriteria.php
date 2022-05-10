@@ -149,92 +149,117 @@
                 <!-- End matrix penjumlahan tiap baris -->
             </div>
 
-            <!-- Rasio Konsistensi -->
+
+            <!-- Indeks Random Konsistensi -->
             <div class="d-flex flex-row">
                 <div class="">
                     <table class="table table-bordered mt-4" style="max-width: 20rem;">
                         <thead class="align-middle">
                             <tr>
-                                <th colspan="4" class="text-center">Rasio Konsistensi</th>
+                                <th colspan="4" class="text-center">Indeks Random Konsistensi</th>
                             </tr>
                             <tr style="background-color: #F9FAFB; font-size: 13px;" class="text-center">
-                                <th style="width: 100px;">Kriteria</th>
-                                <th>Jumlah</th>
-                                <th>Prioritas</th>
-                                <th>Nilai</th>
+                                <th>Ukuran Matriks</th>
+                                <th>Nilai IR</th>
                             </tr>
                         </thead>
                         <tbody style="font-size: 13px;">
-                            <?php
-                            $n = count($subkrit_arr);
-
-                            for ($x = 0; $x < $n; $x++) {
-                                echo "<tr>";
-                                echo "<td style='background-color: #F9FAFB;' class='font-weight-bold'>" . $subkrit_arr[$x] . "</td>";
-                                echo "<td class='text-center'>" . round($jumlah_tiap_baris[$x], 3) . "</td>";
-                                echo "<td class='text-center'>" . round($prioritas[$x], 3) . "</td>";
-                                echo "<td class='text-center'>" . round($nilai[$x], 3) . "</td>";
-                                echo "</tr>";
-                            } ?>
-                            <tr>
-                                <td colspan="3">Jumlah</td>
-                                <td><?= round($jumlah_nilai, 3); ?></td>
-                            </tr>
-                            <tr>
-                                <td colspan="3">λmaks / Eigen Value
-                                </td>
-                                <td><?= round($eigen, 3); ?></td>
-                            </tr>
+                            <?php foreach ($data_ir as $dr) : ?>
+                                <tr>
+                                    <td><?= $dr['ukuran_matrix']; ?></td>
+                                    <td><?= $dr['nilai_ir']; ?></td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
 
-                <!-- Tabel consistensi index dan consistensi rasio -->
-                <div class="ml-3">
-                    <table class="table table-bordered mt-4" style="max-width: 20rem;">
-                        <thead class="align-middle">
-                            <tr>
-                                <th colspan="2" class="text-center">Rasio Consistensi</th>
-                            </tr>
-                            <tr style="background-color: #F9FAFB; font-size: 13px;" class="text-center">
-                                <th style="width: 100px;">#</th>
-                                <th>Hasil</th>
-                            </tr>
-                        </thead>
-                        <tbody style="font-size: 13px;">
-                            <tr>
-                                <td>Consistensi Index</td>
-                                <td class="align-middle"><?= round($cons_index, 3); ?></td>
-                            </tr>
-                            <tr>
-                                <td>Index Random</td>
-                                <td><?= $ir; ?></td>
-                            </tr>
-                            <tr>
-                                <td>Consistensi Rasio</td>
-                                <td class="align-middle <?php if ($cons_rasio < 0.1) {
-                                                            echo "bg-success text-white";
-                                                        } else {
-                                                            echo "bg-danger text-white";
-                                                        } ?>"><?= round($cons_rasio, 3); ?></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <hr>
-                    <div style="max-width: 30rem;">
-                        <h5>Hasil Konsistensi Rasio</h5>
-                        <?php if ($cons_rasio < 0.1) { ?>
-                            <p style="font-size: 14px;">Dengan Consistensi Rasio yang telah didapatkan bahwa yaitu sebesar <span class="font-weight-bold"><?= round($cons_rasio, 3); ?> < 0.1</span> atau lebih kecil dari 0.1, maka perbandigan elemen sebelumnya adalah <span class="font-weight-bold">KONSISTEN</span>.
-                            </p>
-                        <?php } else { ?>
-                            <p style="font-size: 14px;">Dengan Consistensi Rasio yang telah didapatkan bahwa yaitu sebesar <span class="font-weight-bold"><?= round($cons_rasio, 3); ?> < 0.1</span> atau lebih besar dari 0.1, maka perbandigan elemen sebelumnya adalah <span class="font-weight-bold">TIDAK KONSISTEN</span>.
-                            </p>
-                        <?php } ?>
+                <!-- Rasio Konsistensi -->
+                <div class="d-flex flex-row ml-3">
+                    <div class="">
+                        <table class="table table-bordered mt-4" style="max-width: 20rem;">
+                            <thead class="align-middle">
+                                <tr>
+                                    <th colspan="4" class="text-center">Rasio Konsistensi</th>
+                                </tr>
+                                <tr style="background-color: #F9FAFB; font-size: 13px;" class="text-center">
+                                    <th style="width: 100px;">Kriteria</th>
+                                    <th>Jumlah</th>
+                                    <th>Prioritas</th>
+                                    <th>Nilai</th>
+                                </tr>
+                            </thead>
+                            <tbody style="font-size: 13px;">
+                                <?php
+                                $n = count($subkrit_arr);
+
+                                for ($x = 0; $x < $n; $x++) {
+                                    echo "<tr>";
+                                    echo "<td style='background-color: #F9FAFB;' class='font-weight-bold'>" . $subkrit_arr[$x] . "</td>";
+                                    echo "<td class='text-center'>" . round($jumlah_tiap_baris[$x], 3) . "</td>";
+                                    echo "<td class='text-center'>" . round($prioritas[$x], 3) . "</td>";
+                                    echo "<td class='text-center'>" . round($nilai[$x], 3) . "</td>";
+                                    echo "</tr>";
+                                } ?>
+                                <tr>
+                                    <td colspan="3">Jumlah</td>
+                                    <td><?= round($jumlah_nilai, 3); ?></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">λmaks / Eigen Value
+                                    </td>
+                                    <td><?= round($eigen, 3); ?></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
+
+                    <!-- Tabel consistensi index dan consistensi rasio -->
+                    <div class="ml-3">
+                        <table class="table table-bordered mt-4" style="max-width: 20rem;">
+                            <thead class="align-middle">
+                                <tr>
+                                    <th colspan="2" class="text-center">Rasio Consistensi</th>
+                                </tr>
+                                <tr style="background-color: #F9FAFB; font-size: 13px;" class="text-center">
+                                    <th style="width: 100px;">#</th>
+                                    <th>Hasil</th>
+                                </tr>
+                            </thead>
+                            <tbody style="font-size: 13px;">
+                                <tr>
+                                    <td>Consistensi Index</td>
+                                    <td class="align-middle"><?= round($cons_index, 3); ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Index Random</td>
+                                    <td><?= $ir; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Consistensi Rasio</td>
+                                    <td class="align-middle <?php if ($cons_rasio < 0.1) {
+                                                                echo "bg-success text-white";
+                                                            } else {
+                                                                echo "bg-danger text-white";
+                                                            } ?>"><?= round($cons_rasio, 3); ?></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <hr>
+                        <div style="max-width: 30rem;">
+                            <h5>Hasil Konsistensi Rasio</h5>
+                            <?php if ($cons_rasio < 0.1) { ?>
+                                <p style="font-size: 14px;">Dengan Consistensi Rasio yang telah didapatkan bahwa yaitu sebesar <span class="font-weight-bold"><?= round($cons_rasio, 3); ?> < 0.1</span> atau lebih kecil dari 0.1, maka perbandigan elemen sebelumnya adalah <span class="font-weight-bold">KONSISTEN</span>.
+                                </p>
+                            <?php } else { ?>
+                                <p style="font-size: 14px;">Dengan Consistensi Rasio yang telah didapatkan bahwa yaitu sebesar <span class="font-weight-bold"><?= round($cons_rasio, 3); ?> < 0.1</span> atau lebih besar dari 0.1, maka perbandigan elemen sebelumnya adalah <span class="font-weight-bold">TIDAK KONSISTEN</span>.
+                                </p>
+                            <?php } ?>
+                        </div>
+                    </div>
+                    <!-- End consistensi index dan consistensi rasio -->
                 </div>
-                <!-- End consistensi index dan consistensi rasio -->
+                <!-- End Rasio Konsistensi -->
             </div>
-            <!-- End Rasio Konsistensi -->
         </div>
     </div>
-</div>
