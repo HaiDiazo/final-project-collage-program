@@ -109,7 +109,11 @@
                     ?>
                     <?php foreach ($periode as $p) {
                         $temp = explode(" ", $p['nama_periode']);
-                        $nama_periode .= "'$temp[0] $temp[1]'" . ", ";
+                        if (count($temp) > 1) {
+                            $nama_periode .= "'$temp[0] $temp[1]'" . ", ";
+                        } else {
+                            $nama_periode .= "'$temp[0]'" . ",";
+                        }
                         $temp = $p['anggaran'];
                         $anggaran .= "'$temp'" . ", ";
                     } ?>

@@ -122,7 +122,7 @@ class Hasil extends CI_Controller
             }
 
             // Tanggungan
-            if (!is_numeric($dp['usia'])) {
+            if (!is_numeric($dp['tanggungan'])) {
                 $simpan[$i]['id_penduduk'] = $dp['id_penduduk'];
                 $simpan[$i]['nama'] = $dp['nama'];
                 $simpan[$i]['usia'] = $dp['id_penduduk'];
@@ -196,6 +196,10 @@ class Hasil extends CI_Controller
     {
         $column2 = $column;
         $column2[5] = "status_penduduk";
+
+        // print_r($kr_bobot[3]['nama_kriteria']);
+        // echo "<br>";
+        // print_r($column2[0]);
 
         $no_p = 0;
         $score = array();
@@ -300,26 +304,26 @@ class Hasil extends CI_Controller
                 array_push($column2, $nm_column[$i]['Field']);
             }
         }
+
         $column2[5] = "status_penduduk";
         $nm_column[10]['Field'] = "status_penduduk";
 
 
         // buat kolom untuk ditampilin di view
         $column_tb = array();
-        for ($i = 4; $i < count($nm_column); $i++) {
-            if ($i != 7 && $i != 11) {
-                foreach ($kr_bobot as $kr) {
-                    if ($nm_column[$i]['Field'] == $kr['nama_kriteria']) {
-                        array_push($column_tb, $nm_column[$i]['Field']);
-                    }
-                }
-            }
+        foreach ($kr_bobot as $kr) {
+            array_push($column_tb, $kr['nama_kriteria']);
         }
 
+        // print_r($column_tb);
+        // echo "<br>";
 
         // Proses subtitusi 
         $score = $this->subtitusiBobot($column, $data_penduduk, $kr_bobot);
         // end proses subtitusi
+
+        // echo "<br>";
+        // print_r($score[0]);
 
         // Jumlah 1 baris untuk mulai diurutkan
         $total = $this->jumTotalBobot($score);
@@ -358,33 +362,36 @@ class Hasil extends CI_Controller
         if ($export != null && $export == 1) {
             $this->load->library("excel");
             $object = new PHPExcel();
+            $alfabet = array('C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L');
 
             $object->setActiveSheetIndex(0);
             $object->getActiveSheet()->setCellValue('A1', 'No');
             $object->getActiveSheet()->setCellValue('B1', 'Nama');
-            $object->getActiveSheet()->setCellValue('C1', 'Usia');
-            $object->getActiveSheet()->setCellValue('D1', 'Tanggungan');
-            $object->getActiveSheet()->setCellValue('E1', 'Pekerjaan');
-            $object->getActiveSheet()->setCellValue('F1', 'Penghasilan');
-            $object->getActiveSheet()->setCellValue('G1', 'Terdampak Covid');
-            $object->getActiveSheet()->setCellValue('H1', 'Status Penduduk');
-            $object->getActiveSheet()->setCellValue('I1', 'Total');
+            $k = 0;
+            foreach ($kr_bobot as $kr) {
+                $object->getActiveSheet()->setCellValue($alfabet[$k] . '1', $kr['nama_kriteria']);
+                $k++;
+            }
+            $object->getActiveSheet()->setCellValue($alfabet[$k] . '1', 'Total');
 
-            $alfabet = array('C', 'D', 'E', 'F', 'G', 'H');
 
             $excel_row = 2;
             $no = 1;
             $i = 0;
 
             foreach ($data_penduduk->result_array() as $val) {
+                $a = 0;
+
                 $object->getActiveSheet()->setCellValue('A' . $excel_row, $no);
                 $object->getActiveSheet()->setCellValue('B' . $excel_row, $val['nama']);
 
                 for ($j = 0; $j < count($column_tb); $j++) {
-                    $object->getActiveSheet()->setCellValue($alfabet[$j] . $excel_row, $score[$i][$j]);
+                    $object->getActiveSheet()->setCellValue($alfabet[$a] . $excel_row, $score[$i][$j]);
+
+                    $a++;
                 }
 
-                $object->getActiveSheet()->setCellValue('I' . $excel_row, $total[$i]['total']);
+                $object->getActiveSheet()->setCellValue($alfabet[$a] . $excel_row, $total[$i]['total']);
 
 
 
