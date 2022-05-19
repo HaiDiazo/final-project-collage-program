@@ -78,7 +78,7 @@
                         <td style="text-align: left;"><?= $p['nik']; ?></td>
                         <td>Rp. <?= $p['penghasilan']; ?></td>
                         <td><?= $p['tanggungan']; ?></td>
-                        <td><?= $p['status_c']; ?></td>
+                        <td><?= $p['terdampak']; ?></td>
                         <td><?= $p['status']; ?></td>
                         <td>Rp. <?= $p['dana']; ?> <?php $total_dana += $p['dana'] ?></td>
                     </tr>

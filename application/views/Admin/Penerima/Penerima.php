@@ -53,7 +53,6 @@
                             <th scope="col" class="align-middle">Usia</th>
                             <th scope="col" class="align-middle">Jumlah <br> (Tanggungan)</th>
                             <th scope="col" class="align-middle">Pekerjaan</th>
-                            <th scope="col" class="align-middle">Status</th>
                             <th scope="col" class="align-middle">Terdampak</th>
                             <th scope="col" class="align-middle">Penghasilan</th>
                             <th scope="col" class="align-middle">Status <br> Penduduk</th>
@@ -72,7 +71,6 @@
                                 <td><?= $p['usia']; ?></td>
                                 <td><?= $p['tanggungan']; ?></td>
                                 <td><?= $p['pekerjaan']; ?></td>
-                                <td><?= $p['status_c']; ?></td>
                                 <td><?= $p['terdampak']; ?></td>
                                 <td><?= $p['penghasilan']; ?></td>
                                 <td><?= $p['status_pddk']; ?></td>

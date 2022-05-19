@@ -299,14 +299,14 @@ class Hasil extends CI_Controller
         $column2 = array();
         $nm_column = $this->model_penduduk->get_column_name()->result_array();
         for ($i = 4; $i < count($nm_column); $i++) {
-            if ($i != 7 && $i != 11) {
+            if ($i != 10) {
                 array_push($column, $nm_column[$i]['Field']);
                 array_push($column2, $nm_column[$i]['Field']);
             }
         }
 
-        $column2[5] = "status_penduduk";
-        $nm_column[10]['Field'] = "status_penduduk";
+        $column2[4] = "status_penduduk";
+        $nm_column[9]['Field'] = "status_penduduk";
 
 
         // buat kolom untuk ditampilin di view

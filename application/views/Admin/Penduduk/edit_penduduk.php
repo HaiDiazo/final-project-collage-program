@@ -40,18 +40,6 @@
                     <label for="tanggungan">Banyak Tanggungan</label>
                     <input type="text" name="tanggungan" class="form-control" id="tanggungan" style="width: 240px; " placeholder="Masukan Tanggungan" value="<?= $penduduk['tanggungan']; ?>">
                 </div>
-                <div class="form-group w-25">
-                    <label for="InputStatus">Status</label>
-                    <select name="status" class="form-control" id="InputStatus" style="width: 240px;">
-                        <option value="" selected disabled>Pilih status</option>
-                        <option value="Positif" <?php if ($penduduk['status_c'] == "Positif") {
-                                                    echo "selected";
-                                                } ?>>Positif</option>
-                        <option value="Negatif" <?php if ($penduduk['status_c'] == "Negatif") {
-                                                    echo "selected";
-                                                } ?>>Negatif</option>
-                    </select>
-                </div>
 
                 <div class="form-group w-25">
                     <label for="InputTerdampak">Terdampak</label>

@@ -255,12 +255,11 @@ class Penduduk extends CI_Controller
                         $nik = $worksheet->getCellByColumnAndRow(2, $row)->getValue();
                         $alamat = $worksheet->getCellByColumnAndRow(3, $row)->getValue();
                         $usia = $worksheet->getCellByColumnAndRow(4, $row)->getValue();
-                        $status_c = $worksheet->getCellByColumnAndRow(5, $row)->getValue();
-                        $tanggungan = $worksheet->getCellByColumnAndRow(6, $row)->getValue();
-                        $pekerjaan = $worksheet->getCellByColumnAndRow(7, $row)->getValue();
-                        $terdampak = $worksheet->getCellByColumnAndRow(8, $row)->getValue();
-                        $penghasilan = $worksheet->getCellByColumnAndRow(9, $row)->getValue();
-                        $status_pddk = $worksheet->getCellByColumnAndRow(10, $row)->getValue();
+                        $tanggungan = $worksheet->getCellByColumnAndRow(5, $row)->getValue();
+                        $pekerjaan = $worksheet->getCellByColumnAndRow(6, $row)->getValue();
+                        $terdampak = $worksheet->getCellByColumnAndRow(7, $row)->getValue();
+                        $penghasilan = $worksheet->getCellByColumnAndRow(8, $row)->getValue();
+                        $status_pddk = $worksheet->getCellByColumnAndRow(9, $row)->getValue();
 
                         $data = [
                             'nama' => $nama,
@@ -269,7 +268,6 @@ class Penduduk extends CI_Controller
                             'usia' => $usia,
                             'tanggungan' => $tanggungan,
                             'pekerjaan' => $pekerjaan,
-                            'status_c' => $status_c,
                             'penghasilan' => $penghasilan,
                             'terdampak' => $terdampak,
                             'status_pddk' => $status_pddk,
@@ -351,7 +349,6 @@ class Penduduk extends CI_Controller
         $pekerjaanSelect = htmlspecialchars($this->input->post('pekerjaan'));
         $pekerjaanInput = htmlspecialchars($this->input->post('pekerjaanInput'));
         $tanggungan = htmlspecialchars($this->input->post('tanggungan'));
-        $status = htmlspecialchars($this->input->post('status'));
         $penghasilan = htmlspecialchars($this->input->post('penghasilan'));
         $terdampak = htmlspecialchars($this->input->post('terdampak'));
         $status_pddk = htmlspecialchars($this->input->post('status_pddk'));
@@ -370,7 +367,6 @@ class Penduduk extends CI_Controller
             'usia' => $usia,
             'tanggungan' => $tanggungan,
             'pekerjaan' => $pekerjaan,
-            'status_c' => $status,
             'penghasilan' => $penghasilan,
             'terdampak' => $terdampak,
             'status_pddk' => $status_pddk,
@@ -419,7 +415,6 @@ class Penduduk extends CI_Controller
             'usia' => $usia,
             'tanggungan' => $tanggungan,
             'pekerjaan' => $pekerjaan,
-            'status_c' => $status,
             'penghasilan' => $penghasilan,
             'terdampak' => $terdampak,
             'status_pddk' => $status_pddk

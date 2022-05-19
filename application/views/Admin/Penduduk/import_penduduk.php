@@ -24,6 +24,16 @@
             </form>
         </div>
     </div>
+    <div class="card rounded mt-3">
+        <div class="card-body">
+            <div class="">
+                <h5>Urutan Kolom Untuk Import ke Excel</h5>
+
+                Sebelum dilakukan import data excel ke dalam program, harus melakukan penyesuaian kolom excel mirip dibawah ini. Agar tidak terjadi kesalahan program.
+            </div>
+            <img src="<?= base_url('assets/images/urutan_kol_excel.png'); ?>" class="img-fluid" alt="Responsive image">
+        </div>
+    </div>
 </div>
 <script>
     window.pressed = function() {
