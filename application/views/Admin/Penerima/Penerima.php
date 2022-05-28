@@ -33,15 +33,6 @@
                     </div>
                 </div>
             </div>
-
-            <div class="mt-3" style="font-size: 14px;">
-                Total Anggaran: Rp. <?= number_format($anggaran, 0, ',', '.'); ?>
-            </div>
-
-            <div class="mt-1" style="font-size: 14px;">
-                Sisa Anggaran: Rp. <?= number_format($sisa_anggaran, 0, ',', '.'); ?>
-            </div>
-
             <hr>
             <div class="table-responsive">
                 <table id="example" class="table table-bordered text-center">
@@ -57,7 +48,6 @@
                             <th scope="col" class="align-middle">Penghasilan</th>
                             <th scope="col" class="align-middle">Status <br> Penduduk</th>
                             <th scope="col" class="align-middle">Status <br> Penerima</th>
-                            <th scope="col" class="align-middle">Jumlah <br> Dana Bantuan</th>
                             <th scope="col" class="align-middle">Aksi</th>
                         </tr>
                     </thead>
@@ -75,12 +65,6 @@
                                 <td><?= $p['penghasilan']; ?></td>
                                 <td><?= $p['status_pddk']; ?></td>
                                 <td><?= $p['status']; ?></td>
-                                <td scope="col" class="align-middle" style="min-width: 200px;">
-                                    <form action="<?= base_url('admin/penerima/simpan_dana/') . $id_periode . "/" . $p['id_penerima']; ?>" class="row" method="POST">
-                                        <input type="text" name="dana" id="dana" class="form-control col ml-2 mr-1" <?php if (!empty($p['dana'])) { ?> value="<?= $p['dana']; ?>" <?php } ?> <?php if ($p['status'] == "Ditolak") echo "disabled"; ?>>
-                                        <button type="submit" class="btn btn-primary col mr-2 " style="max-width: 50px;" <?php if ($p['status'] == "Ditolak") echo "disabled"; ?>><i class="bi bi-file-arrow-up"></i></button>
-                                    </form>
-                                </td>
                                 <td style="width:30px;">
                                     <a href="<?= base_url('admin/penerima/hapus_penerima/') . $id_periode . '/' . $p['id_penerima']; ?>" class="btn btn-danger" style="height: 38px;"><i class="bi bi-trash pt-2"></i></a>
                                 </td>

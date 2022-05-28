@@ -16,6 +16,11 @@ class model_ir extends CI_Model
         return $this->db->get();
     }
 
+    public function insert_ir($data)
+    {
+        $this->db->insert($this->table, $data);
+    }
+
     public function data_ir()
     {
         return $this->db->get($this->table);

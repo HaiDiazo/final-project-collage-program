@@ -47,12 +47,6 @@ class Penerima extends CI_Controller
         $where = array('id_periode' => $data_periode['id_periode']);
         $data_periode = $this->model_periode->get_periode($where)->row_array();
 
-
-        // Sisa anggaran
-        $total_dana = $this->model_penerima->total_anggaran_kumpul($data_periode['id_periode']);
-        $sisa_anggaran = $data_periode['anggaran'] - $total_dana['total_dana'];
-
-
         // Susun Tanggal
         $periode_name = $this->pick_three_word($data_periode['nama_periode']);
         $tanggal_awal = date_create($data_periode['tanggal_awal']);
@@ -100,10 +94,6 @@ class Penerima extends CI_Controller
 
 
         $data['penerima'] = $this->model_penerima->penduduk_status_periode($data_periode['id_periode'])->result_array();
-
-        $data['anggaran'] = $data_periode['anggaran'];
-        $data['sisa_anggaran'] = $sisa_anggaran;
-
         $data['id_periode'] = $data_periode['id_periode'];
 
         // Cek periode
@@ -277,26 +267,6 @@ class Penerima extends CI_Controller
                 echo "Gagal Insert";
                 redirect('admin/penerima/tambah_penerima/' . $id_periode);
             }
-        }
-    }
-
-    public function simpan_dana($id_periode, $id_penerima)
-    {
-        $dana = htmlspecialchars($this->input->post('dana'));
-
-        $data = array(
-            'dana' => $dana
-        );
-        $this->model_penerima->update_dana($id_penerima, $data);
-        $update = $this->db->affected_rows() != 1 ? false : true;
-
-        if ($update > 0) {
-            echo "Sukses Insert";
-            $this->session->set_flashdata('success', '<div class="alert alert-success my-3">Dana Penerima Berhasil Dimasukan</div>');
-            redirect('admin/penerima');
-        } else {
-            echo "Gagal Insert";
-            redirect('admin/penerima');
         }
     }
 

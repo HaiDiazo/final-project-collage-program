@@ -27,7 +27,7 @@ class Dashboard extends CI_Controller
 
         // Periode 
         $total_periode = $this->model_periode->tahun_periode()->result_array();
-        $periode = $this->model_periode->get_anggaran_periode()->result_array();
+        $periode = $this->model_periode->getCountPendudukPerPeriode()->result_array();
 
         // Pekerjaan
         $pekerjaan = $this->model_penduduk->get_sum_pekerjaan()->result_array();
@@ -41,7 +41,7 @@ class Dashboard extends CI_Controller
         // Total anggaran semua periode 
         $data['total_kriteria'] = $kriteria->num_rows();
         $data['total_data'] = $penduduk->num_rows();
-        $data['total_anggaran'] = $this->model_periode->sum_anggaran();
+        $data['total_anggaran'] = 0;
         $data['periode'] = $periode;
         $data['pekerjaan_total'] = $pekerjaan;
         $data['total_periode'] = count($total_periode);

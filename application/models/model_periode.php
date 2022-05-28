@@ -56,4 +56,10 @@ class model_periode extends CI_Model
         $query = $this->db->query("SELECT SUM(anggaran) as jumlah FROM tb_periode")->row_array();
         return $query['jumlah'];
     }
+
+    public function getCountPendudukPerPeriode()
+    {
+        $query = $this->db->query("SELECT nama_periode, COUNT(nama) AS jumlah FROM tb_penduduk INNER JOIN tb_periode USING(id_periode) GROUP BY nama_periode ORDER BY id_periode ASC");
+        return $query;
+    }
 }

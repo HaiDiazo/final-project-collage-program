@@ -81,7 +81,6 @@ class TahunPeriode extends CI_Controller
         $nama_periode = htmlspecialchars($this->input->post('nama'));
         $tgl_awal = htmlspecialchars($this->input->post('tanggal_awal'));
         $tgl_akhir = htmlspecialchars($this->input->post('tanggal_akhir'));
-        $anggaran = htmlspecialchars($this->input->post('anggaran'));
         $kuota = htmlspecialchars($this->input->post('kuota'));
         $keterangan = htmlspecialchars($this->input->post('keterangan'));
 
@@ -90,7 +89,6 @@ class TahunPeriode extends CI_Controller
             'nama_periode' => $nama_periode,
             'tanggal_awal' => $tgl_awal,
             'tanggal_akhir' => $tgl_akhir,
-            'anggaran' => $anggaran,
             'kuota' => $kuota,
             'keterangan' => $keterangan
         ];
@@ -111,7 +109,6 @@ class TahunPeriode extends CI_Controller
         $nama_periode = htmlspecialchars($this->input->post('nama'));
         $tgl_awal = htmlspecialchars($this->input->post('tanggal_awal'));
         $tgl_akhir = htmlspecialchars($this->input->post('tanggal_akhir'));
-        $anggaran = htmlspecialchars($this->input->post('anggaran'));
         $kuota = htmlspecialchars($this->input->post('kuota'));
         $keterangan = htmlspecialchars($this->input->post('keterangan'));
 
@@ -119,7 +116,6 @@ class TahunPeriode extends CI_Controller
             'nama_periode' => $nama_periode,
             'tanggal_awal' => $tgl_awal,
             'tanggal_akhir' => $tgl_akhir,
-            'anggaran' => $anggaran,
             'kuota' => $kuota,
             'keterangan' => $keterangan
         ];

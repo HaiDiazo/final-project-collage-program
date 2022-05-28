@@ -114,7 +114,7 @@
                         } else {
                             $nama_periode .= "'$temp[0]'" . ",";
                         }
-                        $temp = $p['anggaran'];
+                        $temp = $p['jumlah'];
                         $anggaran .= "'$temp'" . ", ";
                     } ?>
                 </div>
