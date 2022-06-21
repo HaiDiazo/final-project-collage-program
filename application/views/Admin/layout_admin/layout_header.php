@@ -105,8 +105,8 @@
                             } ?>">
                     <a href="<?= base_url('admin/cetak'); ?>"><i class="bi bi-printer-fill mr-2"></i> Cetak Laporan</a>
                 </li>
-                <li>
-                    <a href="#"><i class="bi bi-question-circle-fill mr-2"></i> Tentang Aplikasi</a>
+                <li class="<?php if ($title == 'Tentang Aplikasi') echo 'active'; ?>">
+                    <a href="<?= base_url('admin/TentangAplikasi'); ?>"><i class="bi bi-question-circle-fill mr-2"></i> Tentang Aplikasi</a>
                 </li>
                 <li>
                     <a href="<?= base_url('login/logout'); ?>"><i class="bi bi-door-open-fill mr-2"></i> Logout</a>

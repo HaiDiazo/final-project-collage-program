@@ -117,10 +117,6 @@ class Penerima extends CI_Controller
         $where = array('id_periode' => $id_periode);
         $data_periode = $this->model_periode->get_periode($where)->row_array();
 
-        // Sisa anggaran
-        $total_dana = $this->model_penerima->total_anggaran_kumpul($data_periode['id_periode']);
-        $sisa_anggaran = $data_periode['anggaran'] - $total_dana['total_dana'];
-
         // Susun Tanggal
         $periode_name = $this->pick_three_word($data_periode['nama_periode']);
         $tanggal_awal = date_create($data_periode['tanggal_awal']);
@@ -165,9 +161,6 @@ class Penerima extends CI_Controller
         }
         $data['periode'] = $nama_periode;
         // =============
-
-        $data['anggaran'] = $data_periode['anggaran'];
-        $data['sisa_anggaran'] = $sisa_anggaran;
 
         $data['id_periode'] = $data_periode['id_periode'];
 

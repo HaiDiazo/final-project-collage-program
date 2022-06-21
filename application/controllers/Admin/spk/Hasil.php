@@ -445,11 +445,6 @@ class Hasil extends CI_Controller
         $periode = $this->model_periode->tahun_periode_id($id_periode)->row_array();
         // End inisialisasi
 
-        // Dana untuk yang diterima
-        $dana = $periode['anggaran'] / $periode['kuota'];
-        $dana = round($dana, 0);
-        // End
-
         // Input array
         $score = array();
         $i = 0;
@@ -461,7 +456,6 @@ class Hasil extends CI_Controller
                     'nik' => $al['nik'],
                     'alamat' => $al['alamat'],
                     'score' => $al['skor'],
-                    'anggaran' => $dana,
                     'status' => 'Diterima'
                 );
             } else {
@@ -471,7 +465,6 @@ class Hasil extends CI_Controller
                     'nik' => $al['nik'],
                     'alamat' => $al['alamat'],
                     'score' => $al['skor'],
-                    'anggaran' => 0,
                     'status' => 'Ditolak'
                 );
             }
@@ -489,7 +482,6 @@ class Hasil extends CI_Controller
                 if ($cek->num_rows() != 0) {
                     $update = array(
                         'tgl_penerima' => date("Y-m-d"),
-                        'dana' => $sc['anggaran'],
                         'status' => $sc['status']
                     );
 
@@ -498,7 +490,6 @@ class Hasil extends CI_Controller
                     $insert = array(
                         'tgl_penerima' => date("Y-m-d"),
                         'id_penduduk' => $sc['id_penduduk'],
-                        'dana' => $sc['anggaran'],
                         'status' => $sc['status']
                     );
 

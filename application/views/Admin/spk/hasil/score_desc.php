@@ -26,7 +26,6 @@
                             <th scope="col" class="align-middle">NIK</th>
                             <th scope="col" class="align-middle">Alamat</th>
                             <th scope="col" class="align-middle">Score</th>
-                            <th scope="col" class="align-middle">Status</th>
                         </tr>
                     </thead>
                     <tbody style="font-size: 13px;">
@@ -38,7 +37,6 @@
                                 <td><?= $ds['nik']; ?></td>
                                 <td><?= $ds['alamat']; ?></td>
                                 <td><?= round($ds['score'], 4); ?></td>
-                                <td><?= $ds['status']; ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

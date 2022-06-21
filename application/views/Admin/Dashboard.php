@@ -147,7 +147,7 @@
         const data = {
             labels: [<?= $nama_periode; ?>],
             datasets: [{
-                label: 'Anggaran Periode Penerima Dana Bantuan',
+                label: 'Data Penduduk Tiap Periode',
                 data: [<?= $anggaran; ?>],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
